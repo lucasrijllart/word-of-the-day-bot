@@ -19,7 +19,6 @@ BASE_API = "https://wordsapiv1.p.rapidapi.com/"
 def _headers(key_env_var="X_RAPIDAPI_KEY"):
     """Constuct headers for WordsAPI request."""
     key = os.getenv(key_env_var)
-    print("KEY:", key)
     return {
         "x-rapidapi-key": key,
         "x-rapidapi-host": "wordsapiv1.p.rapidapi.com",

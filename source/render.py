@@ -1,9 +1,12 @@
 """Render text into a visual image."""
+from os import path
 from datetime import date, datetime
 import subprocess
 
 from jinja2 import Template
 
+import templates as templates_folder
+import data as data_folder
 
 COLOR_SCHEMES = {
     "born": {
@@ -20,7 +23,12 @@ COLOR_SCHEMES = {
     }
 }
 
-TEMPLATE_FILE = "template_1.html"
+TEMPLATE_1 = "template_1.html"
+
+TIMESTAMP = datetime.now().strftime("%Y%m%d_%H%M%S")
+
+TEMPLATES_FOLDER = templates_folder.__path__[0]
+DATA_FOLDER = data_folder.__path__[0]
 
 
 def _get_date():
@@ -31,7 +39,7 @@ def _get_date():
     return date.today().strftime("%A %d{S} of %b %Y").replace("{S}", suffix)
 
 
-def render_template(word, definitions):
+def render_template(word, definitions, template_name=TEMPLATE_1):
     """Render an HTML template with the new word and definitions."""
     data = {
         "todays_date": _get_date(),
@@ -40,24 +48,27 @@ def render_template(word, definitions):
         **COLOR_SCHEMES["elegant_yet_approachable"],
     }
 
-    with open(TEMPLATE_NAME, "r") as file:
+    template_path = path.join(TEMPLATES_FOLDER, template_name)
+    with open(template_path, "r") as file:
         template = Template(file.read())
     html = template.render(**data)
 
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    render_name = f"render_{timestamp}.html"
-    with open(render_name, "w") as f:
+    render_name = f"render_{TIMESTAMP}.html"
+    render_path = path.join(DATA_FOLDER, render_name)
+    with open(render_path, "w") as f:
         f.write(html)
-    print("rendered:", render_name)
-    return render_name
+    print("rendered:", render_path)
+    return render_path
 
 
-def create_image(input_file, output_file):
+def create_image(render_path):
     """Create image from given HTML file."""
     # can add "-q" based on the logs
+    image_name = f"image_{TIMESTAMP}.jpg"
+    image_path = path.join(DATA_FOLDER, image_name)
     args = [
-        "wkhtmltoimage", "--height", "1000", "--width", "1000", input_file, output_file
+        "wkhtmltoimage", "--height", "1000", "--width", "1000", render_path, image_path
     ]
     subprocess.run(args)
-    print(f"created {output_file} from {input_file}")
-    return output_file
+    print(f"created {image_path} from {render_path}")
+    return image_path
