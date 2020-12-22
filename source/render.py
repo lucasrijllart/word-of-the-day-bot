@@ -12,7 +12,7 @@ COLOR_SCHEMES = {
         "word_color": "black",
         "definition_color": "#31708E",
     },
-    "elegant_yet_approachable" = {
+    "elegant_yet_approachable": {
         "background_color": "#EEE2DC",
         "date_color": "#AC3B61",
         "word_color": "black",
@@ -23,7 +23,7 @@ COLOR_SCHEMES = {
 TEMPLATE_FILE = "template_1.html"
 
 
-def get_date():
+def _get_date():
     """Get and format date to comfortable style. Example: Monday 1st of January 2020."""
     day = date.today().day
     mapping = {1: "st", 2: "nd", 3: "rd"}
@@ -34,7 +34,7 @@ def get_date():
 def render_template(word, definitions):
     """Render an HTML template with the new word and definitions."""
     data = {
-        "todays_date": get_date(),
+        "todays_date": _get_date(),
         "word": word,
         "definitions": definitions,
         **COLOR_SCHEMES["elegant_yet_approachable"],
@@ -54,7 +54,7 @@ def render_template(word, definitions):
 
 def create_image(input_file, output_file):
     """Create image from given HTML file."""
-    # can add "-q"
+    # can add "-q" based on the logs
     args = [
         "wkhtmltoimage", "--height", "1000", "--width", "1000", input_file, output_file
     ]

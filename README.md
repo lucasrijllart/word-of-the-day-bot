@@ -9,15 +9,11 @@ Posts daily word definitions on social media
 
 ## Todo
 
-- add project build files
 - write tests
-- split script file
-
-- logging
+- add logging
 - add programmatic tree (Josh)
 - instagram integration
 - improve design (Erez)
 - add github action for tests
 - cloud hosting
 - cron job
-
