@@ -53,10 +53,9 @@ def render_template(word, definitions, template_name=TEMPLATE_1):
         template = Template(file.read())
     html = template.render(**data)
 
-    render_name = f"render_{TIMESTAMP}.html"
-    render_path = path.join(DATA_FOLDER, render_name)
-    with open(render_path, "w") as f:
-        f.write(html)
+    render_path = path.join(DATA_FOLDER, f"render_{TIMESTAMP}.html")
+    with open(render_path, "w") as file:
+        file.write(html)
     print("rendered:", render_path)
     return render_path
 
@@ -70,5 +69,5 @@ def create_image(render_path):
         "wkhtmltoimage", "--height", "1000", "--width", "1000", render_path, image_path
     ]
     subprocess.run(args)
-    print(f"created {image_path} from {render_path}")
+    print(f"created {image_name} from {render_path.rsplit('/', 1)}")
     return image_path

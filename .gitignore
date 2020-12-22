@@ -1,5 +1,7 @@
-# Vim swap files
+# custom
 *.swp
+source/data/*.html
+source/data/*.jpg
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

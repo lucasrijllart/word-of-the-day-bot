@@ -57,7 +57,6 @@ def get_word_and_definitions():
     if definitions_result and len(definitions_result) > 1:
         definitions = ""
         for index, definition in enumerate(definitions_result[:3]):
-            print(definition, index)
             formatted = _format_definition(definition)
             definitions += f"<sup>{index}</sup>{formatted}<br>"
     elif definitions_result and len(definitions_result) == 1:
