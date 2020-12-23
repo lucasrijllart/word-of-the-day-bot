@@ -3,7 +3,7 @@ import logging
 import subprocess
 import time
 
-from .instagram import post
+from .instagram import post_to_instagram
 from .render import render_template, create_image
 from .words import get_word_and_data
 
@@ -16,7 +16,7 @@ def main_process_flow(instagram_post, open_file):
     render = render_template(word, definitions)
     image = create_image(render)
     if instagram_post:
-        post(image, caption)
+        post_to_instagram(image, caption="")
     if open_file:
         subprocess.run(["xdg-open", image])
     return image

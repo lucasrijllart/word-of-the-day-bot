@@ -9,12 +9,10 @@ import logging
 import os
 import time
 
+from dotenv import load_dotenv
 import requests
 
-from dotenv import load_dotenv
-load_dotenv()
-
-BASE_API = "https://wordsapiv1.p.rapidapi.com/"
+WORDAPI_BASE = "https://wordsapiv1.p.rapidapi.com/"
 
 MAX_DEFINITION_ATTEMPTS = 15
 
@@ -22,7 +20,10 @@ RAPIDAPI_KEY_VAR = "X_RAPIDAPI_KEY"
 
 def _headers():
     """Constuct headers for WordsAPI request."""
+    load_dotenv(verbose=True)
     key = os.environ.get(RAPIDAPI_KEY_VAR)
+    if not key:
+        raise Exception(f"Env var '{RAPIDAPI_KEY_VAR}' has value {key}.")
     return {
         "x-rapidapi-key": key,
         "x-rapidapi-host": "wordsapiv1.p.rapidapi.com",
@@ -32,7 +33,7 @@ def _headers():
 
 def _get_random_word():
     """Gets random word from API."""
-    random_word_endpoint = BASE_API + "words/?random=true"
+    random_word_endpoint = WORDAPI_BASE + "words/?random=true"
     headers = _headers()
     response = requests.get(random_word_endpoint, headers=headers)
     if response.status_code != 200:
