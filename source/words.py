@@ -6,6 +6,7 @@ password: <in lastpass>
 https://rapidapi.com/dpventures/api/wordsapi/endpoints
 """
 import json
+import logging
 import os
 
 import requests
@@ -31,37 +32,26 @@ def _get_random_word():
     random_word_endpoint = BASE_API + "words/?random=true"
     response = requests.get(random_word_endpoint, headers=_headers())
     assert response.status_code == 200
-    data = json.loads(response.text)
-    return data["word"]
+    logging.info("WordsAPI request successful, status_code=%s" % response.status_code)
+    return response.json()
 
 
-def _get_definitions(word):
-    """Gets definition and part of speech description of given word."""
-    definition_endpoint = f"{BASE_API}words/{word}/definitions"
-    response = requests.get(definition_endpoint, headers=_headers())
-    data = json.loads(response.text)
-    return data["definitions"]
+def _parse_random_word_response(response):
+    word = response.get("word")
+    print("word:", word)
+    data = {}
+    results = response.get("results", [])
+    for index, result in enumerate(results, start=1):
+        definition = result.get("definition")
+        part = result.get("partOfSpeech")
+        data[str(index)] = {"definition": definition, "part": part}
+    print("data:", data)
+    return word, data
 
 
-def _format_definition(definition):
-    """Format definition with part of speech before the definition."""
-    return definition["partOfSpeech"] + ": " + definition["definition"]
 
-
-def get_word_and_definitions():
+def get_word_and_data():
     """Return the random word and its definitions."""
-    word = _get_random_word()
-    print("Got random word:", word)
-
-    definitions_result = _get_definitions(word)
-    if definitions_result and len(definitions_result) > 1:
-        definitions = ""
-        for index, definition in enumerate(definitions_result[:3]):
-            formatted = _format_definition(definition)
-            definitions += f"<sup>{index}</sup>{formatted}<br>"
-    elif definitions_result and len(definitions_result) == 1:
-        definitions = _format_definition(definitions_result[0])
-    else:
-        definitions = None
-    print("Got definitions:", definitions)
-    return word, definitions
+    data = _get_random_word()
+    word, data = _parse_random_word_response(data)
+    return word, data
