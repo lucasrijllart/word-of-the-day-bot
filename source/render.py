@@ -1,6 +1,7 @@
 """Render text into a visual image."""
-from os import path
 from datetime import date, datetime
+import logging
+from os import path
 import subprocess
 
 from jinja2 import Template
@@ -39,12 +40,25 @@ def _get_date():
     return date.today().strftime("%A %d{S} of %b %Y").replace("{S}", suffix)
 
 
+def _format_definitions(data):
+    result = ""
+    for index, values in data.items():
+        if len(data) < 2:
+            result += f"{values['part']}: {values['definition']}"
+        else:
+            result += f"<sup>{index}</sup>{values['part']}: {values['definition']}"
+        if int(index) != len(data):
+            result += "</br>"
+    return result
+
+
+
 def render_template(word, definitions, template_name=TEMPLATE_1):
     """Render an HTML template with the new word and definitions."""
     data = {
         "todays_date": _get_date(),
         "word": word,
-        "definitions": definitions,
+        "definitions": _format_definitions(definitions),
         **COLOR_SCHEMES["elegant_yet_approachable"],
     }
 
@@ -53,10 +67,11 @@ def render_template(word, definitions, template_name=TEMPLATE_1):
         template = Template(file.read())
     html = template.render(**data)
 
-    render_path = path.join(DATA_FOLDER, f"render_{TIMESTAMP}.html")
+    render_name = f"render_{TIMESTAMP}.html"
+    render_path = path.join(DATA_FOLDER, render_name)
     with open(render_path, "w") as file:
         file.write(html)
-    print("rendered:", render_path)
+    logging.info("Rendered HTML file: %s" % render_name)
     return render_path
 
 
@@ -69,5 +84,5 @@ def create_image(render_path):
         "wkhtmltoimage", "--height", "1000", "--width", "1000", render_path, image_path
     ]
     subprocess.run(args)
-    print(f"created {image_name} from {render_path.rsplit('/', 1)}")
+    logging.info("created %s from %s" % (image_name, render_path.rsplit("/", 1)[-1]))
     return image_path

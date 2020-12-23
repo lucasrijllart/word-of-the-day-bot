@@ -37,14 +37,12 @@ def _get_random_word():
 
 def _parse_random_word_response(response):
     word = response.get("word")
-    print("word:", word)
     data = {}
     results = response.get("results", [])
     for index, result in enumerate(results, start=1):
         definition = result.get("definition")
         part = result.get("partOfSpeech")
         data[str(index)] = {"definition": definition, "part": part}
-    print("data:", data)
     return word, data
 
 
@@ -52,4 +50,5 @@ def get_word_and_data():
     """Return the random word and its definitions."""
     data = _get_random_word()
     word, data = _parse_random_word_response(data)
+    logging.info("Word: %s, definitions: %d" % (word, len(data)))
     return word, data

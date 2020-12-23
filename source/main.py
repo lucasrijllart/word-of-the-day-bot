@@ -15,7 +15,6 @@ def main_process():
     if not definitions:
         tries = 1
         while not definitions and tries <= MAX_DEFINITION_TRIES:
-            print("getting")
             word, definitions = get_word_and_data()
             tries += 1
         if tries > MAX_DEFINITION_TRIES:
@@ -29,7 +28,7 @@ def main_process():
 def run():
     """Handle any exceptions from main process and just retry."""
     logging.basicConfig(
-        format="%(asctime)s|%(levelname)s %(module): %(message)s",
+        format="%(asctime)s|%(levelname)s %(module)s: %(message)s",
         level=logging.INFO
     )
     logging.info("Started run")

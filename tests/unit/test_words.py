@@ -82,11 +82,11 @@ class Words(unittest.TestCase):
             "word": "subjugator",
             "results": [{
                 "definition": "a conqueror who defeats and enslaves",
-                "partOfSpeech":"noun",
+                "partOfSpeech": "noun",
                 "typeOf": ["conqueror", "vanquisher"],
                 "derivation": ["subjugate"]
             }],
-            "syllables": {"count": 4,"list": ["sub","ju","ga","tor"]}
+            "syllables": {"count": 4, "list": ["sub", "ju", "ga", "tor"]}
         }
         mock_requests.get.return_value = mock_response
         expected_data = {
