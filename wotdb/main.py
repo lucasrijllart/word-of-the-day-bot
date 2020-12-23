@@ -9,7 +9,7 @@ MAX_OVERALL_TRIES = 1
 
 
 def main_process():
-    """Run the whole process post a new word to instagram."""
+    """Generate image based on random word and definition."""
     word, definitions = get_word_and_data()
     render = render_template(word, definitions)
     image = create_image(render)
@@ -37,4 +37,3 @@ def run():
     logging.info("End of run")
     if result:
         subprocess.run(["xdg-open", result])
-    return result

@@ -38,7 +38,6 @@ def _get_random_word():
             f"WordsAPI request was {response.status_code}: {response.text}. "
             f"Key used: ...{headers['x-rapidapi-key'][-4:]}"
         )
-    assert response.status_code == 200
     logging.info("WordsAPI request successful, status_code=%s" % response.status_code)
     return response.json()
 

@@ -41,3 +41,6 @@ jobs:
         python -m unittest discover -v tests/functional/
       env:
         X_RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
+  test:
+    - name: Another test
+      run: python -m unittest discover -v tests/unit/
