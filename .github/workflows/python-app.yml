@@ -35,4 +35,4 @@ jobs:
       run: |
         python -m unittest -v tests/unit/test_words.py
       env:
-        X_RAPIDAPI_KEY="nonsense"
+        X_RAPIDAPI_KEY: "nonsense"
