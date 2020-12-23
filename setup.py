@@ -5,6 +5,9 @@ setup(
     packages=find_packages(include=["wotdb", "wotdb.*"]),
     package_data={"wotdb": ["templates/*.html"]},
     entry_points={
-        "console_scripts": ["generate_image=wotdb.main:run"]
+        "console_scripts": [
+            "generate_and_open=wotdb.main:generate_and_open",
+            "generate_and_post=wotdb.main:generate_and_post",
+        ]
     },
 )

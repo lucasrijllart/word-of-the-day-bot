@@ -84,5 +84,5 @@ def create_image(render_path):
         render_path, image_path
     ]
     subprocess.run(args)
-    logging.info("created %s from %s" % (image_name, render_path.rsplit("/", 1)[-1]))
+    logging.info("Created image %s" % image_name)
     return image_path

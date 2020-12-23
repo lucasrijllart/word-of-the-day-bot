@@ -7,6 +7,7 @@ https://rapidapi.com/dpventures/api/wordsapi/endpoints
 """
 import logging
 import os
+import time
 
 import requests
 
@@ -17,10 +18,11 @@ BASE_API = "https://wordsapiv1.p.rapidapi.com/"
 
 MAX_DEFINITION_ATTEMPTS = 15
 
+RAPIDAPI_KEY_VAR = "X_RAPIDAPI_KEY"
 
-def _headers(key_env_var="X_RAPIDAPI_KEY"):
+def _headers():
     """Constuct headers for WordsAPI request."""
-    key = os.getenv(key_env_var)
+    key = os.environ.get(RAPIDAPI_KEY_VAR)
     return {
         "x-rapidapi-key": key,
         "x-rapidapi-host": "wordsapiv1.p.rapidapi.com",
@@ -34,9 +36,11 @@ def _get_random_word():
     headers = _headers()
     response = requests.get(random_word_endpoint, headers=headers)
     if response.status_code != 200:
+        api_key = headers["x-rapidapi-key"]
+        api_key = api_key[-4:] if api_key else api_key
         raise Exception(
             f"WordsAPI request was {response.status_code}: {response.text}. "
-            f"Key used: ...{headers['x-rapidapi-key'][-4:]}"
+            f"Key used: ...{api_key}"
         )
     logging.info("WordsAPI request successful, status_code=%s" % response.status_code)
     return response.json()
@@ -65,6 +69,7 @@ def get_word_and_data():
         logging.info("Word: %s, definitions: %d, attempt: %d"
                      % (word, len(definitions), attempt))
         attempt += 1
+        time.sleep(2)  # avoids overwhelming WordsAPI
     if attempt > MAX_DEFINITION_ATTEMPTS:
         raise Exception("Too many attempts at random words with no definitions.")
     return word, definitions
