@@ -31,9 +31,13 @@ def _headers(key_env_var="X_RAPIDAPI_KEY"):
 def _get_random_word():
     """Gets random word from API."""
     random_word_endpoint = BASE_API + "words/?random=true"
-    response = requests.get(random_word_endpoint, headers=_headers())
+    headers = _headers()
+    response = requests.get(random_word_endpoint, headers=headers)
     if response.status_code != 200:
-        raise Exception(f"WordsAPI request was {response.status_code}: {response.text}")
+        raise Exception(
+            f"WordsAPI request was {response.status_code}: {response.text}. "
+            f"Key used: ...{headers['x-rapidapi-key'][-4:]}"
+        )
     assert response.status_code == 200
     logging.info("WordsAPI request successful, status_code=%s" % response.status_code)
     return response.json()
