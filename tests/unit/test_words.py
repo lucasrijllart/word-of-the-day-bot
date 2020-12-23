@@ -1,5 +1,4 @@
 """Tests for words module."""
-import json
 import unittest
 from unittest.mock import MagicMock
 
@@ -32,7 +31,7 @@ class Words(unittest.TestCase):
             {
                 "word": "pro-danish",
                 "rhymes": {"all": "-eɪnɪʃ"},
-                "pronunciation":{},
+                "pronunciation": {},
             },
             "pro-danish",
             {}
@@ -79,7 +78,16 @@ class Words(unittest.TestCase):
         """Ensure the function gets a random word and data."""
         mock_response = MagicMock()
         mock_response.status_code = 200
-        mock_response.json.return_value = {"word":"subjugator","results":[{"definition":"a conqueror who defeats and enslaves","partOfSpeech":"noun","typeOf":["conqueror","vanquisher"],"derivation":["subjugate"]}],"syllables":{"count":4,"list":["sub","ju","ga","tor"]}}
+        mock_response.json.return_value = {
+            "word": "subjugator",
+            "results": [{
+                "definition": "a conqueror who defeats and enslaves",
+                "partOfSpeech":"noun",
+                "typeOf": ["conqueror", "vanquisher"],
+                "derivation": ["subjugate"]
+            }],
+            "syllables": {"count": 4,"list": ["sub","ju","ga","tor"]}
+        }
         mock_requests.get.return_value = mock_response
         expected_data = {
             "1": {"definition": "a conqueror who defeats and enslaves", "part": "noun"}

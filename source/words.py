@@ -5,7 +5,6 @@ username: lucas.rijllart@hotmail.com
 password: <in lastpass>
 https://rapidapi.com/dpventures/api/wordsapi/endpoints
 """
-import json
 import logging
 import os
 
@@ -47,7 +46,6 @@ def _parse_random_word_response(response):
         data[str(index)] = {"definition": definition, "part": part}
     print("data:", data)
     return word, data
-
 
 
 def get_word_and_data():
