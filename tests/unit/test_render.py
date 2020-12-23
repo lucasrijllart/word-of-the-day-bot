@@ -4,7 +4,7 @@ from unittest.mock import MagicMock
 
 from parameterized import parameterized
 
-from source import render
+from wotdb import render
 
 
 class Render(unittest.TestCase):

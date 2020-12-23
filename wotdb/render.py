@@ -6,8 +6,9 @@ import subprocess
 
 from jinja2 import Template
 
-import templates as templates_folder
-import data as data_folder
+from . import templates as templates_folder
+from . import data as data_folder
+
 
 COLOR_SCHEMES = {
     "born": {
@@ -37,7 +38,7 @@ def _get_date():
     day = date.today().day
     mapping = {1: "st", 2: "nd", 3: "rd"}
     suffix = 'th' if 11 <= day <= 13 else mapping.get(day % 10, 'th')
-    return date.today().strftime("%A %d{S} of %b %Y").replace("{S}", suffix)
+    return date.today().strftime("%A %d{S} of %B %Y").replace("{S}", suffix)
 
 
 def _format_definitions(data):
@@ -77,11 +78,11 @@ def render_template(word, definitions, template_name=TEMPLATE_1):
 
 def create_image(render_path):
     """Create image from given HTML file."""
-    # can add "-q" based on the logs
     image_name = f"image_{TIMESTAMP}.jpg"
     image_path = path.join(DATA_FOLDER, image_name)
     args = [
-        "wkhtmltoimage", "--height", "1000", "--width", "1000", render_path, image_path
+        "wkhtmltoimage", "-q", "--height", "1000", "--width", "1000",
+        render_path, image_path
     ]
     subprocess.run(args)
     logging.info("created %s from %s" % (image_name, render_path.rsplit("/", 1)[-1]))

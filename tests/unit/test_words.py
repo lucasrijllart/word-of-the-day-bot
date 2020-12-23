@@ -4,7 +4,7 @@ from unittest.mock import MagicMock
 
 from parameterized import parameterized
 
-from source import words
+from wotdb import words
 
 
 class Words(unittest.TestCase):
@@ -16,7 +16,7 @@ class Words(unittest.TestCase):
             assert key
             assert value
 
-    @unittest.mock.patch("source.words.requests")
+    @unittest.mock.patch("wotdb.words.requests")
     def test_get_random_word(self, mock_requests):
         mock_response = MagicMock()
         mock_response.status_code = 200
@@ -73,7 +73,7 @@ class Words(unittest.TestCase):
         self.assertEqual(word, expected_word)
         self.assertEqual(data, expected_data)
 
-    @unittest.mock.patch("source.words.requests")
+    @unittest.mock.patch("wotdb.words.requests")
     def test_get_word_and_data(self, mock_requests):
         """Ensure the function gets a random word and data."""
         mock_response = MagicMock()
@@ -95,3 +95,7 @@ class Words(unittest.TestCase):
         word, data = words.get_word_and_data()
         self.assertEqual(word, "subjugator")
         self.assertEqual(data, expected_data)
+
+
+if __name__ == "__main__":
+    unittest.main()

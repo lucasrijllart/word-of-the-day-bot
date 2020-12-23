@@ -1,7 +1,7 @@
 # custom
 *.swp
-source/data/*.html
-source/data/*.jpg
+wotdb/data/*.html
+wotdb/data/*.jpg
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

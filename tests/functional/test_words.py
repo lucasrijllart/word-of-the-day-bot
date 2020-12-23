@@ -1,7 +1,7 @@
 """Tests for words module."""
 import unittest
 
-from source import words
+from wotdb import words
 
 
 class Words(unittest.TestCase):

@@ -2,24 +2,15 @@
 import logging
 import subprocess
 
-from render import render_template, create_image
-from words import get_word_and_data
+from .render import render_template, create_image
+from .words import get_word_and_data
 
 MAX_OVERALL_TRIES = 1
-MAX_DEFINITION_TRIES = 15
 
 
 def main_process():
     """Run the whole process post a new word to instagram."""
     word, definitions = get_word_and_data()
-    if not definitions:
-        tries = 1
-        while not definitions and tries <= MAX_DEFINITION_TRIES:
-            word, definitions = get_word_and_data()
-            tries += 1
-        if tries > MAX_DEFINITION_TRIES:
-            raise Exception("Too many attempts to define words with empty results.")
-
     render = render_template(word, definitions)
     image = create_image(render)
     return image
@@ -44,9 +35,6 @@ def run():
         finally:
             tries += 1
     logging.info("End of run")
+    if result:
+        subprocess.run(["xdg-open", result])
     return result
-
-
-if __name__ == "__main__":
-    file = run()
-    subprocess.run(["xdg-open", file])
