@@ -36,3 +36,6 @@ jobs:
         python -m unittest discover -v tests/unit/
       env:
         X_RAPIDAPI_KEY: "nonsense"
+    - name: Functional tests
+      run: |
+        python -m unittest discover -v tests/functional/

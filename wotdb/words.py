@@ -17,6 +17,7 @@ BASE_API = "https://wordsapiv1.p.rapidapi.com/"
 
 MAX_DEFINITION_ATTEMPTS = 15
 
+
 def _headers(key_env_var="X_RAPIDAPI_KEY"):
     """Constuct headers for WordsAPI request."""
     key = os.getenv(key_env_var)

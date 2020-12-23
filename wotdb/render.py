@@ -53,7 +53,6 @@ def _format_definitions(data):
     return result
 
 
-
 def render_template(word, definitions, template_name=TEMPLATE_1):
     """Render an HTML template with the new word and definitions."""
     data = {
