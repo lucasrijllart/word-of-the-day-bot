@@ -7,10 +7,10 @@ setup(
     package_data={"wotdb": ["templates/*.html"]},
     entry_points={
         "console_scripts": [
-            "generate_image=wotdb.main:generate_image",
-            "generate_and_open=wotdb.main:generate_and_open",
-            "generate_and_post=wotdb.main:generate_and_post",
             "show_data_folder=wotdb.entrypoints:show_data_folder",
+            "generate_image=wotdb.entrypoints:generate_image",
+            "generate_and_open=wotdb.entrypoints:generate_and_open",
+            "generate_and_post=wotdb.entrypoints:generate_and_post",
         ]
     },
 )
