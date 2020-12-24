@@ -41,7 +41,9 @@ jobs:
           X_RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
 
       - name: Show latest files
-        run: echo "GENERATED_IMAGE=$(ls -t /opt/hostedtoolcache/Python/3.8.6/x64/lib/python3.8/site-packages/wotdb/data/ | head -1)" >> $GITGUB_ENV
+        run: |
+          echo "GENERATED_IMAGE=$(ls -t /opt/hostedtoolcache/Python/3.8.6/x64/lib/python3.8/site-packages/wotdb/data/ | head -1)" >> $GITHUB_ENV
+          echo $GENERATED_IMAGE
 
       - uses: actions/upload-artifact@v2
         with:
