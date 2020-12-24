@@ -7,7 +7,7 @@ from .instagram import post_to_instagram
 from .render import render_template, create_image
 from .words import get_word_and_data
 
-MAX_OVERALL_TRIES = 10
+MAX_OVERALL_TRIES = 2
 
 
 def main_process_flow(instagram_post, open_file):
@@ -22,7 +22,7 @@ def main_process_flow(instagram_post, open_file):
     return image
 
 
-def main_process_handling(instagram_post=False, open_file=False):
+def main_process_handler(instagram_post=False, open_file=False):
     """Handle any exceptions from main process and just retry."""
     logging.basicConfig(
         format="%(asctime)s|%(levelname)s %(module)s: %(message)s",
@@ -42,13 +42,3 @@ def main_process_handling(instagram_post=False, open_file=False):
         finally:
             tries += 1
     logging.info("End of run")
-
-
-def generate_and_open():
-    """Generate definition image and open file without posting to instagram."""
-    main_process_handling(open_file=True)
-
-
-def generate_and_post():
-    """Generate definition image and post to instagram."""
-    main_process_handling(instagram_post=True)
