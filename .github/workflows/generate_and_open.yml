@@ -38,3 +38,6 @@ jobs:
         run: generate_and_open
         env:
           X_RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
+
+      - name: Show latest files
+        run: ls -t wotdb/data/ | head -2
