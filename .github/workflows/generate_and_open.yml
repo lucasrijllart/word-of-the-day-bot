@@ -25,7 +25,9 @@ jobs:
           python-version: 3.8
  
       - name: Install apt dependencies
-        run: sudo apt-get install wkhtmltopdf
+        run: |
+          sudo apt-get update
+          sudo apt-get install wkhtmltopdf
 
       - name: Install pip dependencies
         run: |
