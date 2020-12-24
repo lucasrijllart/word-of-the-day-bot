@@ -47,4 +47,4 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: generated_image
-          path: "/opt/hostedtoolcache/Python/3.8.6/x64/lib/python3.8/site-packages/wotdb/data/${{GENERATED_IMAGE}}"
+          path: "/opt/hostedtoolcache/Python/3.8.6/x64/lib/python3.8/site-packages/wotdb/data/${{ env.GENERATED_IMAGE }}"
