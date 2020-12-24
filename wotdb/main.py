@@ -7,7 +7,7 @@ from .instagram import post_to_instagram
 from .render import render_template, create_image
 from .words import get_word_and_data
 
-MAX_OVERALL_TRIES = 10
+MAX_OVERALL_TRIES = 1
 
 
 def main_process_flow(instagram_post, open_file):
