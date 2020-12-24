@@ -1,4 +1,5 @@
 """Tests for the render module."""
+from datetime import date
 import unittest
 from unittest.mock import MagicMock
 
@@ -8,6 +9,13 @@ from wotdb import render
 
 
 class Render(unittest.TestCase):
+
+    def test_format_date(self):
+        """Ensure the date is fomatted correctly."""
+        test_date = date(year=2020, month=1, day=1)
+        result = render._format_date(test_date)
+        self.assertEqual(result, "Wednesday 1st of January 2020")
+
 
     @parameterized.expand([
         (

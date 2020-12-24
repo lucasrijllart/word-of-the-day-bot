@@ -33,12 +33,11 @@ TEMPLATES_FOLDER = templates_folder.__path__[0]
 DATA_FOLDER = data_folder.__path__[0]
 
 
-def _get_date():
+def _format_date(the_date=date.today()):
     """Get and format date to comfortable style. Example: Monday 1st of January 2020."""
-    day = date.today().day
     mapping = {1: "st", 2: "nd", 3: "rd"}
-    suffix = 'th' if 11 <= day <= 13 else mapping.get(day % 10, 'th')
-    return date.today().strftime("%A %d{S} of %B %Y").replace("{S}", suffix)
+    suffix = 'th' if 11 <= the_date.day <= 13 else mapping.get(the_date.day % 10, 'th')
+    return the_date.strftime("%A %-d{S} of %B %Y").replace("{S}", suffix)
 
 
 def _format_definitions(data):
@@ -56,7 +55,7 @@ def _format_definitions(data):
 def render_template(word, definitions, template_name=TEMPLATE_1):
     """Render an HTML template with the new word and definitions."""
     data = {
-        "todays_date": _get_date(),
+        "todays_date": _format_date(),
         "word": word,
         "definitions": _format_definitions(definitions),
         **COLOR_SCHEMES["elegant_yet_approachable"],
