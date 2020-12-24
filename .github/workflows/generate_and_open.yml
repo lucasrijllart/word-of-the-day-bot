@@ -41,4 +41,4 @@ jobs:
           X_RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
 
       - name: Show latest files
-        run: ls -t wotdb/data/ | head -2
+        run: ls -t /opt/hostedtoolcache/Python/3.8.6/x64/lib/python3.8/site-packages/wotdb/data/ | head -2
