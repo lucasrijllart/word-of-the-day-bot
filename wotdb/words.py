@@ -14,7 +14,7 @@ import requests
 
 WORDAPI_BASE = "https://wordsapiv1.p.rapidapi.com/"
 
-MAX_DEFINITION_ATTEMPTS = 5
+MAX_DEFINITION_ATTEMPTS = 15
 
 RAPIDAPI_KEY_VAR = "X_RAPIDAPI_KEY"
 
