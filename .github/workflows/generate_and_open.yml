@@ -32,7 +32,7 @@ jobs:
 
       - name: Install pip dependencies
         run: |
-          python -m pip install --upgrade pip
+          python -m pip install pip==20.3.3
           pip install -r requirements.txt
 
       - name: Run entrypoint
@@ -41,4 +41,9 @@ jobs:
           X_RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
 
       - name: Show latest files
-        run: ls -t /opt/hostedtoolcache/Python/3.8.6/x64/lib/python3.8/site-packages/wotdb/data/ | head -2
+        run: echo "GENERATED_IMAGE=$(ls -t /opt/hostedtoolcache/Python/3.8.6/x64/lib/python3.8/site-packages/wotdb/data/ | head -1)" >> $GITGUB_ENV
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: generated_image
+          path: /opt/hostedtoolcache/Python/3.8.6/x64/lib/python3.8/site-packages/wotdb/data/$GENERATED_IMAGE
