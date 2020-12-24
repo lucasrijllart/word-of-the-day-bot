@@ -37,7 +37,7 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run entrypoint
-        run: generate
+        run: generate_image
         env:
           X_RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
 
