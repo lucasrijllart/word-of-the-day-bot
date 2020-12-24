@@ -29,7 +29,6 @@ jobs:
           sudo apt-get update
           sudo apt-get install wkhtmltopdf=0.12.4-1
           sudo apt-get install xvfb=2:1.19.6-1ubuntu4.8
-          export XDG_RUNTIME_DIR='/tmp/runtime-runner'
 
       - name: Install pip dependencies
         run: |

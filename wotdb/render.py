@@ -66,19 +66,17 @@ def render_template(word, definitions, template_name=TEMPLATE_1):
         template = Template(file.read())
     html = template.render(**data)
 
-    render_name = f"render_{TIMESTAMP}.html"
-    render_path = path.join(DATA_FOLDER, render_name)
+    render_path = path.join(DATA_FOLDER, f"render_{TIMESTAMP}.html")
     with open(render_path, "w") as file:
         file.write(html)
-    logging.info("Rendered HTML file: %s" % render_name)
+    logging.info("Rendered HTML file: %s" % render_path)
     return render_path
 
 
 def create_image(render_path):
     """Create image from given HTML file."""
     logging.info("Starting html to image conversion")
-    image_name = f"image_{TIMESTAMP}.jpg"
-    image_path = path.join(DATA_FOLDER, image_name)
+    image_path = path.join(DATA_FOLDER, f"image_{TIMESTAMP}.jpg")
     # maybe https://unix.stackexchange.com/questions/192642/wkhtmltopdf-qxcbconnection-could-not-connect-to-display
     args = [
         "xvfb-run", "wkhtmltoimage", "-q", "--height", "1000", "--width", "1000",
@@ -90,7 +88,7 @@ def create_image(render_path):
     except FileNotFoundError:
         logging.error("Image was not created!")
     else:
-        logging.info("Created image %s" % image_name)
+        logging.info("Created image %s" % image_path)
     finally:
         f.close()
     return image_path
