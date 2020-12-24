@@ -27,7 +27,7 @@ jobs:
       - name: Install apt dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install wkhtmltopdf
+          sudo apt-get install wkhtmltopdf=0.12.4-1
 
       - name: Install pip dependencies
         run: |
