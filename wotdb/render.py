@@ -81,9 +81,16 @@ def create_image(render_path):
     image_path = path.join(DATA_FOLDER, image_name)
     # maybe https://unix.stackexchange.com/questions/192642/wkhtmltopdf-qxcbconnection-could-not-connect-to-display
     args = [
-        "wkhtmltoimage", "-q", "--height", "1000", "--width", "1000",
+        "xvfb-run", "wkhtmltoimage", "-q", "--height", "1000", "--width", "1000",
         render_path, image_path
     ]
     subprocess.run(args)
-    logging.info("Created image %s" % image_name)
+    try:
+        f = open(image_path)
+    except FileNotFoundError:
+        logging.error("Image was not created!")
+    else:
+        logging.info("Created image %s" % image_name)
+    finally:
+        f.close()
     return image_path

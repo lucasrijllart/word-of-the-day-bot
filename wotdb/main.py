@@ -44,6 +44,10 @@ def main_process_handling(instagram_post=False, open_file=False):
     logging.info("End of run")
 
 
+def generate_image():
+    """Generate definition image only. Used by GitHub actions to save file."""
+    main_process_handling()
+
 def generate_and_open():
     """Generate definition image and open file without posting to instagram."""
     main_process_handling(open_file=True)

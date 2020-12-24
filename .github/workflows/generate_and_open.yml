@@ -28,6 +28,8 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install wkhtmltopdf=0.12.4-1
+          sudo apt-get install xvfb=2:1.19.6-1ubuntu4.8
+          export XDG_RUNTIME_DIR='/tmp/runtime-runner'
 
       - name: Install pip dependencies
         run: |
@@ -35,7 +37,7 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run entrypoint
-        run: generate_and_open
+        run: generate
         env:
           X_RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
 
