@@ -32,7 +32,7 @@ jobs:
 
       - name: Install pip dependencies
         run: |
-          python -m pip install pip==20.3.3
+          python -m pip install pip==20.3.1
           pip install -r requirements.txt
 
       - name: Run entrypoint
@@ -43,9 +43,8 @@ jobs:
       - name: Show latest files
         run: |
           echo "GENERATED_IMAGE=$(ls -t /opt/hostedtoolcache/Python/3.8.6/x64/lib/python3.8/site-packages/wotdb/data/ | head -1)" >> $GITHUB_ENV
-          echo $GENERATED_IMAGE
 
       - uses: actions/upload-artifact@v2
         with:
           name: generated_image
-          path: /opt/hostedtoolcache/Python/3.8.6/x64/lib/python3.8/site-packages/wotdb/data/$GENERATED_IMAGE
+          path: "/opt/hostedtoolcache/Python/3.8.6/x64/lib/python3.8/site-packages/wotdb/data/$GENERATED_IMAGE"
