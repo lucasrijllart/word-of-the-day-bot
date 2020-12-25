@@ -57,13 +57,14 @@ def _render_template(word, definitions, data_dir, template_name=TEMPLATE_1):
     }
 
     logging.info("Using template: %s" % template_name)
-    render_path = path.join(templates_folder.__path__[0], template_name)
-    with open(render_path, "r") as file:
+    template_path = path.join(templates_folder.__path__[0], template_name)
+    with open(template_path, "r") as file:
         template = file.read()
     html = Template(template).render(**data)
 
     render_name = f"render_{timestamp()}.html"
-    with open(path.join(data_dir, render_name), "w") as file:
+    render_path = path.join(data_dir, render_name)
+    with open(render_path, "w") as file:
         file.write(html)
     logging.info("Rendered HTML file: %s" % render_name)
     return render_path
@@ -76,7 +77,7 @@ def _create_image(render_path, data_dir):
     image_path = path.join(data_dir, image_name)
 
     args = [
-        "xvfb-run", "wkhtmltoimage", "-q", "--height", "1000", "--width", "1000",
+        "xvfb-run", "wkhtmltoimage", "--height", "1000", "--width", "1000",
         render_path, image_path
     ]
     subprocess.run(args)
