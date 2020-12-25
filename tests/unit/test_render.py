@@ -1,7 +1,6 @@
 """Tests for the render module."""
 from datetime import date
 import unittest
-from unittest.mock import MagicMock
 
 from parameterized import parameterized
 
@@ -15,7 +14,6 @@ class Render(unittest.TestCase):
         test_date = date(year=2020, month=1, day=1)
         result = render._format_date(test_date)
         self.assertEqual(result, "Wednesday 1st of January 2020")
-
 
     @parameterized.expand([
         (

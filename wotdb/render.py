@@ -1,5 +1,5 @@
 """Render text into a visual image."""
-from datetime import date, datetime
+from datetime import date
 import logging
 from os import path
 import subprocess
@@ -7,7 +7,7 @@ import subprocess
 from jinja2 import Template
 
 from . import templates as templates_folder
-from . import data as data_folder
+from .utils import timestamp
 
 
 COLOR_SCHEMES = {
@@ -26,11 +26,6 @@ COLOR_SCHEMES = {
 }
 
 TEMPLATE_1 = "template_1.html"
-
-TIMESTAMP = datetime.now().strftime("%Y%m%d_%H%M%S")
-
-TEMPLATES_FOLDER = templates_folder.__path__[0]
-DATA_FOLDER = data_folder.__path__[0]
 
 
 def _format_date(the_date=date.today()):
@@ -52,7 +47,7 @@ def _format_definitions(data):
     return result
 
 
-def render_template(word, definitions, template_name=TEMPLATE_1):
+def _render_template(word, definitions, data_dir, template_name=TEMPLATE_1):
     """Render an HTML template with the new word and definitions."""
     data = {
         "todays_date": _format_date(),
@@ -61,22 +56,24 @@ def render_template(word, definitions, template_name=TEMPLATE_1):
         **COLOR_SCHEMES["elegant_yet_approachable"],
     }
 
-    template_path = path.join(TEMPLATES_FOLDER, template_name)
-    with open(template_path, "r") as file:
-        template = Template(file.read())
-    html = template.render(**data)
+    logging.info("Using template: %s" % template_name)
+    render_path = path.join(templates_folder.__path__[0], template_name)
+    with open(render_path, "r") as file:
+        template = file.read()
+    html = Template(template).render(**data)
 
-    render_path = path.join(DATA_FOLDER, f"render_{TIMESTAMP}.html")
-    with open(render_path, "w") as file:
+    render_name = f"render_{timestamp()}.html"
+    with open(path.join(data_dir, render_name), "w") as file:
         file.write(html)
-    logging.info("Rendered HTML file: %s" % render_path)
+    logging.info("Rendered HTML file: %s" % render_name)
     return render_path
 
 
-def create_image(render_path):
+def _create_image(render_path, data_dir):
     """Create image from given HTML file."""
     logging.info("Starting html to image conversion")
-    image_path = path.join(DATA_FOLDER, f"image_{TIMESTAMP}.jpg")
+    image_name = f"image_{timestamp()}.jpg"
+    image_path = path.join(data_dir, image_name)
 
     args = [
         "xvfb-run", "wkhtmltoimage", "-q", "--height", "1000", "--width", "1000",
@@ -87,10 +84,17 @@ def create_image(render_path):
     try:
         f = open(image_path)
     except FileNotFoundError:
-        logging.error("Image was not created!")
+        raise Exception("Image was not created!")
     else:
-        logging.info("Created image %s" % image_path)
+        logging.info("Created image %s" % image_name)
     finally:
         f.close()
 
+    return image_path
+
+
+def create_image_from_template(word, definitions, data_dir):
+    """Create image from rendered HTML template."""
+    render_path = _render_template(word, definitions, data_dir)
+    image_path = _create_image(render_path, data_dir)
     return image_path

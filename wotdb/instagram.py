@@ -6,6 +6,7 @@ from os import getenv
 
 from instabot import Bot
 
+
 def post_to_instagram(image_path, caption):
     """Posts an image to instagram."""
     username = getenv("INSTAGRAM_USERNAME")
