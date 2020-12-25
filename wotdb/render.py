@@ -10,21 +10,6 @@ from . import templates as templates_folder
 from .utils import timestamp
 
 
-COLOR_SCHEMES = {
-    "born": {
-        "background_color": "#8FC1E3",
-        "date_color": "#687864",
-        "word_color": "black",
-        "definition_color": "#31708E",
-    },
-    "elegant_yet_approachable": {
-        "background_color": "#EEE2DC",
-        "date_color": "#AC3B61",
-        "word_color": "black",
-        "definition_color": "#123C69",
-    }
-}
-
 TEMPLATE_1 = "template_1.html"
 
 
@@ -49,17 +34,16 @@ def _format_definitions(data):
 
 def _render_template(word, definitions, data_dir, template_name=TEMPLATE_1):
     """Render an HTML template with the new word and definitions."""
-    data = {
-        "todays_date": _format_date(),
-        "word": word,
-        "definitions": _format_definitions(definitions),
-        **COLOR_SCHEMES["elegant_yet_approachable"],
-    }
-
     logging.info("Using template: %s" % template_name)
     template_path = path.join(templates_folder.__path__[0], template_name)
     with open(template_path, "r") as file:
         template = file.read()
+
+    data = {
+        "todays_date": _format_date(),
+        "word": word,
+        "definitions": _format_definitions(definitions),
+    }
     html = Template(template).render(**data)
 
     render_name = f"render_{timestamp()}.html"

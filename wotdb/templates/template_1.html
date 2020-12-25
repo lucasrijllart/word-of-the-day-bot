@@ -2,18 +2,6 @@
 <head>
 <title>Word-of-the-day-bot</title>
 <style>
-    <!--
-    https://visme.co/blog/website-color-schemes/
-    EDC7B7
-    EEE2DC
-    BAB2B5
-    123C69
-    AC3B61
-    https://codepen.io/SmartyPants/pen/adRMxg
-    https://www.geeksforgeeks.org/post-a-picture-automatically-on-instagram-using-python/
-    https://pypi.org/project/imgkit/
-    -->
-    
     html {
         height: 100%;
     }
@@ -54,12 +42,12 @@
 </style>
 </head>
 
-<body style="background-color: {{ background_color }}">
-    <div class="date"><p style="color: {{ date_color }}">{{ todays_date }}</p></div>
+<body style="background-color: #EEE2DC">
+    <div class="date"><p style="color: #AC3861">{{ todays_date }}</p></div>
 
-    <div class="word"><p style="color: {{ word_color }}">{{ word }}</p></div>
+    <div class="word"><p style="color: black">{{ word }}</p></div>
 
-    <div class="definition"><p style="color: {{ definition_color }}">{{ definitions }}</p></div>
+    <div class="definition"><p style="color: #123C69">{{ definitions }}</p></div>
 
 </body>
 </html>
