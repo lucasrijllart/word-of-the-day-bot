@@ -11,7 +11,5 @@ Posts daily word definitions on social media
 
 - write tests
 - add programmatic tree (Josh)
-- instagram integration
 - improve design (Erez)
-- cloud hosting
 - cron job

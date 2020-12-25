@@ -1,3 +1,3 @@
-from . import instagram, main, render, words
+from . import entrypoints, main, render, utils, words
 
-__all__ = ["instagram", "main", "render", "words"]
+__all__ = ["entrypoints", "main", "render", "utils", "words"]

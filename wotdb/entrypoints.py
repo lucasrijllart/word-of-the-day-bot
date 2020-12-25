@@ -20,4 +20,4 @@ def generate_and_open():
 
 def generate_and_post():
     """Generate definition image and post to instagram."""
-    main_process_handler(instagram_post=True)
+    main_process_handler()

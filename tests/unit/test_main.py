@@ -1,9 +1,9 @@
 """Unit tests for main module."""
 import os
 import unittest
-from unittest.mock import MagicMock
 
 from wotdb import main
+
 
 class Main(unittest.TestCase):
     
