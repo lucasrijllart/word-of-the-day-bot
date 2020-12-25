@@ -2,6 +2,7 @@
 *.swp
 wotdb/data/*.html
 wotdb/data/*.jpg
+wotdb/data/*/
 config/
 
 # Byte-compiled / optimized / DLL files

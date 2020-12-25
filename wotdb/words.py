@@ -22,10 +22,10 @@ RAPIDAPI_KEY_VAR = "X_RAPIDAPI_KEY"
 
 def _headers():
     """Constuct headers for WordsAPI request."""
-    load_dotenv()
+    load_dotenv(verbose=True)
     key = os.environ.get(RAPIDAPI_KEY_VAR)
     if not key:
-        raise Exception(f"Env var '{RAPIDAPI_KEY_VAR}' has value {key}.")
+        raise Exception(f"Env var '{RAPIDAPI_KEY_VAR}' has value {key}. Use with -e.")
     return {
         "x-rapidapi-key": key,
         "x-rapidapi-host": "wordsapiv1.p.rapidapi.com",
