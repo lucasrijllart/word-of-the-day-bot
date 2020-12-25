@@ -2,7 +2,6 @@
 *.swp
 wotdb/data/*.html
 wotdb/data/*.jpg
-wotdb/data/*.REMOVE_ME
 config/
 
 # Byte-compiled / optimized / DLL files

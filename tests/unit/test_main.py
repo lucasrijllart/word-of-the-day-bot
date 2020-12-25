@@ -6,7 +6,7 @@ from wotdb import main
 
 
 class Main(unittest.TestCase):
-    
+
     def test_make_directory(self):
         """Ensure function creates a new directory, then remove it."""
         path = os.path.dirname(os.path.abspath(__file__))

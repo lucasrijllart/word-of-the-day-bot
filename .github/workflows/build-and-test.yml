@@ -35,12 +35,8 @@ jobs:
         python -m unittest discover -v tests/unit/
       env:
         X_RAPIDAPI_KEY: "nonsense"
-        INSTAGRAM_USERNAME: "nonsense"
-        INSTAGRAM_PASSWORD: "nonsense"
     - name: Functional tests
       run: |
         python -m unittest discover -v tests/functional/
       env:
         X_RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
-        INSTAGRAM_USERNAME: ${{ secrets.INSTAGRAM_USERNAME }}
-        INSTAGRAM_PASSWORD: ${{ secrets.INSTAGRAM_PASSWORD }}

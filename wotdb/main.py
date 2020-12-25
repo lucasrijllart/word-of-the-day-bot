@@ -17,8 +17,8 @@ def _make_directory(path):
     directory = os.path.join(path, timestamp())
     try:
         os.mkdir(directory)
-    except OSError as e:
-        logging.exception("Creation of the directory %s failed." % directory)
+    except OSError:
+        raise Exception("Creation of the directory %s failed." % directory)
     else:
         logging.info("Successfully created directory %s" % directory)
     return directory
