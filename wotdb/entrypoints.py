@@ -15,7 +15,7 @@ def generate_image():
 
 def generate_and_open():
     """Generate definition image and open file with xdg-open for local use."""
-    main_process_handler(open_file=True)
+    main_process_handler("dark_twitter.html", open_file=True)
 
 
 def post_to_twitter():
