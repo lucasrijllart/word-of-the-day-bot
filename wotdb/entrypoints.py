@@ -10,7 +10,7 @@ def show_data_folder():
 
 def generate_image():
     """Generate definition image only. Used by GitHub actions to save file."""
-    main_process_handler()
+    main_process_handler("dark_twitter.html")
 
 
 def generate_and_open():
@@ -18,6 +18,6 @@ def generate_and_open():
     main_process_handler(open_file=True)
 
 
-def generate_and_post():
-    """Generate definition image and post to instagram."""
-    main_process_handler()
+def post_to_twitter():
+    """Generate definition image and post to twitter."""
+    main_process_handler("dark_twitter.html", open_file=True)

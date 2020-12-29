@@ -1,0 +1,56 @@
+<html>
+<head>
+<title>Word-of-the-day-bot</title>
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Noticia+Text:ital,wght@1,700&display=swap" rel="stylesheet">
+
+<style>
+    html {
+        height: 100%;
+    }
+
+    body {
+        font-family: "Noticia Text", serif;
+    }
+
+    .date {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 10%;
+        font-size: 3vw;
+    }
+    
+    .word {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 60%;
+        font-size: 9vw;
+
+    }
+    
+    .definition {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 28%;
+        text-align: center;
+        font-size: 4vw;
+    }
+
+</style>
+</head>
+
+<body style="background-color: #192734">
+    <div class="date"><p style="color: #8899A6">{{ todays_date }}</p></div>
+
+    <div class="word"><p style="color: white">{{ word }}</p></div>
+
+    <div class="definition"><p style="color: #E2E7EA">{{ definitions }}</p></div>
+
+</body>
+</html>

@@ -10,9 +10,6 @@ from . import templates as templates_folder
 from .utils import timestamp
 
 
-TEMPLATE_1 = "template_1.html"
-
-
 def _format_date(the_date=date.today()):
     """Get and format date to comfortable style. Example: Monday 1st of January 2020."""
     mapping = {1: "st", 2: "nd", 3: "rd"}
@@ -32,7 +29,7 @@ def _format_definitions(data):
     return result
 
 
-def _render_template(word, definitions, data_dir, template_name=TEMPLATE_1):
+def _render_template(word, definitions, data_dir, template_name):
     """Render an HTML template with the new word and definitions."""
     logging.info("Using template: %s" % template_name)
     template_path = path.join(templates_folder.__path__[0], template_name)
@@ -78,8 +75,8 @@ def _create_image(render_path, data_dir):
     return image_path
 
 
-def create_image_from_template(word, definitions, data_dir):
+def create_image_from_template(word, definitions, data_dir, template_name):
     """Create image from rendered HTML template."""
-    render_path = _render_template(word, definitions, data_dir)
+    render_path = _render_template(word, definitions, data_dir, template_name)
     image_path = _create_image(render_path, data_dir)
     return image_path
