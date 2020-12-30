@@ -1,4 +1,7 @@
-"""Module handling Twitter integration to post media."""
+"""Module handling Twitter integration to post media.
+
+Library used: https://github.com/geduldig/TwitterAPI
+"""
 import logging
 import os
 
