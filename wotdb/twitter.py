@@ -50,7 +50,7 @@ def tweet_image(caption, file_path, data_dir=None):
     if tweet_response.status_code == 200:
         logging.info("Twitter post successful")
     else:
-        logging.exception(tweet_request.__dict__)
+        logging.exception(tweet_response.__dict__)
         raise Exception("Twitter post unsuccessful!")
 
     url = tweet_response.json().get("entities").get("media")[0].get("expanded_url")
