@@ -27,12 +27,12 @@ def _make_directory(path):
     return directory
 
 
-def _main_process_flow(template, height, width, open_file, twitter_post):
+def _main_process_flow(template, width, height, open_file, twitter_post):
     """Generate image based on random word and definition."""
     data_dir = _make_directory(data.__path__[0])
     word, definitions = get_word_and_data(data_dir)
     render_path = render_template(word, definitions, data_dir, template)
-    image_path = create_image(render_path, data_dir, height, width)
+    image_path = create_image(render_path, data_dir, width, height)
     if open_file:
         subprocess.run(["xdg-open", image_path])
     if twitter_post:
@@ -61,7 +61,7 @@ def main_process_handler(
     while not result and tries <= MAX_OVERALL_TRIES:
         logging.info("Running main process, try %s" % tries)
         try:
-            result = _main_process_flow(template, height, width, open_file, twitter_post)
+            result = _main_process_flow(template, width, height, open_file, twitter_post)
         except Exception as e:
             logging.exception(e)
             time.sleep(1)  # wait after getting exception

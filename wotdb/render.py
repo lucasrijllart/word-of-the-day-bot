@@ -55,14 +55,14 @@ def render_template(word, definitions, data_dir, template_name):
     return render_path
 
 
-def create_image(render_path, data_dir, height, width):
+def create_image(render_path, data_dir, width, height):
     """Create image from given HTML file."""
     logging.info("Starting html to image conversion")
     image_name = f"image_{timestamp()}.jpg"
     image_path = path.join(data_dir, image_name)
 
     args = [
-        "xvfb-run", "wkhtmltoimage", "--height", str(height), "--width", str(width),
+        "xvfb-run", "wkhtmltoimage", "--width", str(width), "--height", str(height),
         render_path, image_path
     ]
     subprocess.run(args)

@@ -22,4 +22,4 @@ def generate_and_open():
 
 def twitter_post():
     """Generate definition image and post to twitter."""
-    main_process_handler("dark_twitter.html", height=512, width=1024, twitter_post=True)
+    main_process_handler("dark_twitter.html", width=1024, height=512, twitter_post=True)
