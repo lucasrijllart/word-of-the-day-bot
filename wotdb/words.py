@@ -9,7 +9,6 @@ import logging
 import os
 import time
 
-from dotenv import load_dotenv
 import requests
 
 from .utils import timestamp
@@ -22,7 +21,6 @@ RAPIDAPI_KEY_VAR = "X_RAPIDAPI_KEY"
 
 def _headers():
     """Constuct headers for WordsAPI request."""
-    load_dotenv(verbose=True)
     key = os.environ.get(RAPIDAPI_KEY_VAR)
     if not key:
         raise Exception(f"Env var '{RAPIDAPI_KEY_VAR}' has value {key}. Use with -e.")
@@ -39,21 +37,21 @@ def _get_random_word(data_dir=None):
     headers = _headers()
     response = requests.get(random_word_endpoint, headers=headers)
 
+    if data_dir:
+        file_name = f"wordsapi_response_{timestamp()}.txt"
+        with open(os.path.join(data_dir, file_name), "w") as file:
+            file.write(response.text)
+        logging.info("WordsAPI response file %s saved" % file_name)
+
     if response.status_code != 200:
         api_key = headers["x-rapidapi-key"]
         api_key = api_key[-4:] if api_key else api_key
         raise Exception(
-            f"WordsAPI request was {response.status_code}: {response.text}. "
+            f"WordsAPI request was {response.status_code}: {response.text} "
             f"Key used: ...{api_key}"
         )
 
     logging.info("WordsAPI request successful, status_code=%s" % response.status_code)
-
-    if data_dir:
-        file_name = f"response_{timestamp()}.txt"
-        with open(os.path.join(data_dir, file_name), "w") as file:
-            file.write(response.text)
-        logging.info("WordsAPI response file %s saved." % file_name)
 
     return response.json()
 

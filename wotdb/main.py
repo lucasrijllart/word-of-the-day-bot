@@ -4,9 +4,12 @@ import os
 import subprocess
 import time
 
+from dotenv import load_dotenv
+
 from . import data
 from . import templates as templates_folder
-from .render import create_image_from_template
+from .render import render_template, create_image
+from .twitter import tweet_image
 from .utils import timestamp
 from .words import get_word_and_data
 
@@ -25,29 +28,41 @@ def _make_directory(path):
     return directory
 
 
-def _main_process_flow(template, open_file):
+def _main_process_flow(template, height, width, open_file, twitter_post):
     """Generate image based on random word and definition."""
     data_dir = _make_directory(data.__path__[0])
     word, definitions = get_word_and_data(data_dir)
-    image = create_image_from_template(word, definitions, data_dir, template)
+    render_path = render_template(word, definitions, data_dir, template)
+    image_path = create_image(render_path, data_dir, height, width)
     if open_file:
-        subprocess.run(["xdg-open", image])
-    return image
+        subprocess.run(["xdg-open", image_path])
+    if twitter_post:
+        caption = f"{word} #WordOfTheDay"
+        tweet_image(caption, image_path, data_dir)
+    return image_path
 
 
-def main_process_handler(template="template_1.html", open_file=False):
+def main_process_handler(
+        template="template_1.html",
+        height=1000,
+        width=1000,
+        open_file=False,
+        twitter_post=False
+):
     """Handle any exceptions from main process and just retry."""
     logging.basicConfig(
         format="%(asctime)s|%(levelname)s %(module)s: %(message)s",
         level=logging.INFO
     )
     logging.info("Started run")
+    load_dotenv(verbose=True)
+
     result = None
     tries = 1
     while not result and tries <= MAX_OVERALL_TRIES:
         logging.info("Running main process, try %s" % tries)
         try:
-            result = _main_process_flow(template, open_file)
+            result = _main_process_flow(template, height, width, open_file, twitter_post)
         except Exception as e:
             logging.exception(e)
             time.sleep(1)  # wait after getting exception

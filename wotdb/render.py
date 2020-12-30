@@ -33,7 +33,7 @@ def _format_definitions(data):
     return result
 
 
-def _render_template(word, definitions, data_dir, template_name):
+def render_template(word, definitions, data_dir, template_name):
     """Render an HTML template with the new word and definitions."""
     logging.info("Using template: %s" % template_name)
     template_path = path.join(templates_folder.__path__[0], template_name)
@@ -55,14 +55,14 @@ def _render_template(word, definitions, data_dir, template_name):
     return render_path
 
 
-def _create_image(render_path, data_dir):
+def create_image(render_path, data_dir, height, width):
     """Create image from given HTML file."""
     logging.info("Starting html to image conversion")
     image_name = f"image_{timestamp()}.jpg"
     image_path = path.join(data_dir, image_name)
 
     args = [
-        "xvfb-run", "wkhtmltoimage", "--height", "1000", "--width", "1000",
+        "xvfb-run", "wkhtmltoimage", "--height", str(height), "--width", str(width),
         render_path, image_path
     ]
     subprocess.run(args)
@@ -76,11 +76,4 @@ def _create_image(render_path, data_dir):
     finally:
         f.close()
 
-    return image_path
-
-
-def create_image_from_template(word, definitions, data_dir, template_name):
-    """Create image from rendered HTML template."""
-    render_path = _render_template(word, definitions, data_dir, template_name)
-    image_path = _create_image(render_path, data_dir)
     return image_path
