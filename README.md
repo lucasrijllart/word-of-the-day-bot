@@ -6,10 +6,20 @@ Posts daily word definitions on social media
 
 ## Local development
 
+Create or workon the virual environment:
+
+`workon word-of-the-day`
+
+Install dependencies using requirments file:
+
+`pip install -r requirements.txt`
+
+Run unit tests:
+
+`python -m unittest discover tests/unit/`
+
 
 ## Todo
 
-- write tests
-- add programmatic tree (Josh)
 - improve design (Erez)
 - cron job

@@ -19,12 +19,16 @@ def _format_date(the_date=date.today()):
 
 def _format_definitions(data):
     result = ""
-    for index, values in data.items():
-        if len(data) < 2:
+    reduced_data = {}
+    for index, value in data.items():
+        if int(index) <= 3:
+            reduced_data[index] = value
+    for index, values in reduced_data.items():
+        if len(reduced_data) < 2:
             result += f"{values['part']}: {values['definition']}"
         else:
             result += f"<sup>{index}</sup> {values['part']}: {values['definition']}"
-        if int(index) != len(data):
+        if int(index) != len(reduced_data):
             result += "</br>"
     return result
 
