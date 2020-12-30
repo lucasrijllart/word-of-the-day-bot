@@ -15,8 +15,7 @@ def authenticate_api():
     access_token_key = os.environ["TWITTER_ACCESS_TOKEN"]
     access_token_secret = os.environ["TWITTER_TOKEN_SECRET"]
     api = TwitterAPI(
-        consumer_key, consumer_secret, access_token_key, access_token_secret,
-        #api_version="2"
+        consumer_key, consumer_secret, access_token_key, access_token_secret
     )
     return api
 

@@ -10,7 +10,7 @@ setup(
             "show_data_folder=wotdb.entrypoints:show_data_folder",
             "generate_image=wotdb.entrypoints:generate_image",
             "generate_and_open=wotdb.entrypoints:generate_and_open",
-            "post_to_twitter=wotdb.entrypoints:post_to_twitter",
+            "twitter_post=wotdb.entrypoints:twitter_post",
         ]
     },
 )

@@ -33,8 +33,7 @@ jobs:
           python -m pip install pip==20.3.1
           pip install -r requirements.txt
 
-      # Run entrypoint
-      - name: Run process
+      - name: Run entrypoint
         run: twitter_post
         env:
           X_RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
