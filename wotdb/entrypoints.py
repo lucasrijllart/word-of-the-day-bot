@@ -1,4 +1,6 @@
-"""Module containing entrypoint definitions."""
+"""The entrypoints below are the externally available functions which are used to run
+the project. These are run by GitHub Actions and listed in the setup.py.
+"""
 from . import data
 from .main import main_process_handler
 

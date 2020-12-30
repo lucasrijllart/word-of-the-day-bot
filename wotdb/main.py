@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 
 from . import data
 from .render import render_template, create_image
-from .twitter import tweet_image
+from .twitter import Twitter
 from .utils import timestamp
 from .words import get_word_and_data
 
@@ -36,8 +36,8 @@ def _main_process_flow(template, height, width, open_file, twitter_post):
     if open_file:
         subprocess.run(["xdg-open", image_path])
     if twitter_post:
-        caption = f"{word} #WordOfTheDay"
-        tweet_image(caption, image_path, data_dir)
+        twitter_bot = Twitter(data_dir)
+        twitter_bot.tweet_image(f"{word} #WordOfTheDay", image_path)
     return image_path
 
 
