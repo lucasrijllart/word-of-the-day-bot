@@ -1,9 +1,6 @@
 """Module handling retrieval of random words and their definitions.
 
-WordsAPI
-username: lucas.rijllart@hotmail.com
-password: <in lastpass>
-https://rapidapi.com/dpventures/api/wordsapi/endpoints
+WordsAPI: https://rapidapi.com/dpventures/api/wordsapi/endpoints
 """
 import logging
 import os

@@ -7,13 +7,12 @@ import time
 from dotenv import load_dotenv
 
 from . import data
-from . import templates as templates_folder
 from .render import render_template, create_image
 from .twitter import tweet_image
 from .utils import timestamp
 from .words import get_word_and_data
 
-MAX_OVERALL_TRIES = 2
+MAX_OVERALL_TRIES = 5
 
 
 def _make_directory(path):
