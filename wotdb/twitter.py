@@ -50,13 +50,12 @@ class Twitter():
 
         return response.json()["media_id"]
 
-
     def _statuses_update(self, caption, media_id):
         """Compose tweet with caption and image."""
         logging.info("Starting status update")
         data = {"status": caption, "media_ids": media_id}
         response = self.api.request("statuses/update", data)
-        
+
         if self.data_dir:
             file_name = f"twitter_statuses_update_response_{timestamp()}"
             with open(os.path.join(self.data_dir, file_name), "w") as file:
@@ -72,7 +71,6 @@ class Twitter():
         url = response.json().get("entities").get("media")[0].get("expanded_url")
         logging.info("Twitter post url: %s" % url)
         return url
-
 
     def tweet_image(self, caption, file_path):
         """Post a tweet with given caption and image."""

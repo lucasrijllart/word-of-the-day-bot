@@ -28,3 +28,7 @@ Install dependencies using requirments file:
 Run unit tests:
 
 `python -m unittest discover tests/unit/`
+
+Generate a new image and open it (Ubuntu only):
+
+`generate_and_open`
