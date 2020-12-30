@@ -23,7 +23,7 @@ def _format_definitions(data):
         if len(data) < 2:
             result += f"{values['part']}: {values['definition']}"
         else:
-            result += f"<sup>{index}</sup>{values['part']}: {values['definition']}"
+            result += f"<sup>{index}</sup> {values['part']}: {values['definition']}"
         if int(index) != len(data):
             result += "</br>"
     return result
