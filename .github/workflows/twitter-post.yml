@@ -1,5 +1,5 @@
 # This is a basic workflow to help you get started with Actions
-name: Generate new image
+name: Twitter post
 
 # Controls when the action will run. 
 on:
@@ -33,16 +33,20 @@ jobs:
           python -m pip install pip==20.3.1
           pip install -r requirements.txt
 
+      # Run entrypoint
       - name: Run process
-        run: generate_image
+        run: twitter_post
         env:
           X_RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
+          TWITTER_API_KEY: ${{ TWITTER_API_KEY }}
+          TWITTER_API_SECRET_KEY: ${{ TWITTER_API_SECRET_KEY }}
+          TWITTER_ACCESS_TOKEN: ${{ TWITTER_ACCESS_TOKEN }}
+          TWITTER_TOKEN_SECRET: ${{ TWITTER_TOKEN_SECRET }}
 
-      - name: Retrieve latest generated file
+      - name: Retrieve data directory
         run: |
             COMMAND="import sysconfig; print(sysconfig.get_path('purelib'))"
-            DATA_PATH=$(python3 -c "$COMMAND")/$(show_data_folder)/
-            DATA_DIRECTORY=$DATA_PATH$(ls -t $DATA_PATH | head -1)/
+            DATA_DIRECTORY=$(python3 -c "$COMMAND")/$(show_data_folder)/
             echo "DATA_DIRECTORY=$DATA_DIRECTORY" >> $GITHUB_ENV
 
       - uses: actions/upload-artifact@v2
