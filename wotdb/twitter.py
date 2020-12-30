@@ -66,7 +66,7 @@ class Twitter():
         if response.status_code == 200:
             logging.info("Twitter post successful")
         else:
-            logging.exception(tweet_response.__dict__)
+            logging.exception(response.__dict__)
             raise Exception("Twitter post unsuccessful!")
 
         url = response.json().get("entities").get("media")[0].get("expanded_url")
