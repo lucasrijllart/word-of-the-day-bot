@@ -1,5 +1,7 @@
 # Word Of The Day bot
 
+![Tests](https://github.com/lucasrijllart/word-of-the-day-bot/workflows/Tests/badge.svg?branch=main)
+
 Post daily word definitions on social media.
 
 Twitter account: https://twitter.com/WordOfTheDay_B
@@ -14,6 +16,8 @@ The main process flow is the following:
   2. Generate an HTML page with the retrieved data using a template
   3. Render the HTML page into an image
   4. Post the image to social media
+
+The social media posts are performed every day through the [Twitter schedule](https://github.com/lucasrijllart/word-of-the-day-bot/actions?query=workflow%3A%22Twitter+schedule%22) Action
 
 ## Local development
 
