@@ -1,12 +1,12 @@
 # This is a basic workflow to help you get started with Actions
 
-name: Twitter check schedule
+name: Twitter post checker
 
 # Controls when the action will run. 
 on:
   schedule:
     # * is a special character in YAML so you have to quote this string
-    - cron:  '00 23 * * *'
+    - cron:  '00 20 * * *'
   workflow_dispatch: # Allows you to run this workflow manually from the Actions tab
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
@@ -22,7 +22,7 @@ jobs:
       - name: Check account
         run: |
           ENDPOINT='https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=WordOfTheDay_B&count=1'
-          RESPONSE=$(curl -X GET -H "Authorization: Bearer ${{ secrets.TWITTER_BEARER_TOKEN }}" "$ENDPOINT")
+          RESPONSE=$(curl -s -X GET -H "Authorization: Bearer ${{ secrets.TWITTER_BEARER_TOKEN }}" "$ENDPOINT")
           echo RESPONSE=$RESPONSE
           CREATED_AT=$(echo $RESPONSE | jq '.[0].created_at' | sed 's/"//g')
           echo CREATED_AT=$CREATED_AT
@@ -31,8 +31,8 @@ jobs:
           TODAY=$(date +'%d')
           echo TODAY=$TODAY
           if [ $CREATED_AT_DAY == $TODAY ]; then
-            echo 'There was a post today.';
+            echo 'There was a post today. All good.';
           else
-            echo 'There was no post today! Exiting...';
+            echo 'There was no post today! Exiting to trigger email!';
             exit 1;
           fi
