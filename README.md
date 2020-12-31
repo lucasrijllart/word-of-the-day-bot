@@ -6,6 +6,8 @@ Post daily word definitions on social media.
 
 Twitter account: https://twitter.com/WordOfTheDay_B
 
+<img src="https://user-images.githubusercontent.com/11093148/103416106-67415300-4b85-11eb-9bf9-f0bbf9200bee.jpg" width="300" height="392">
+
 ## Introduction
 
 The goal of this project is to create a bot that posts a "word of the day" style update,
