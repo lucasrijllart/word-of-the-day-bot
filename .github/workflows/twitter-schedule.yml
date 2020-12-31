@@ -5,8 +5,7 @@ name: Twitter schedule
 on:
   schedule:
     # * is a special character in YAML so you have to quote this string
-    - cron:  '59 * * * *'
-  workflow_dispatch: # Allows you to run this workflow manually from the Actions tab
+    - cron:  '00 * * * *'
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
