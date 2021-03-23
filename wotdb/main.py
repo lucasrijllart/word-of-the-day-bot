@@ -70,5 +70,5 @@ def main_process_handler(
             tries += 1
 
     if not result:
-        raise Exception("Process did not complete successfully.")
+        raise Exception("Process did not produce a result successfully.")
     logging.info("End of run")
