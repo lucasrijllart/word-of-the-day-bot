@@ -27,7 +27,7 @@ jobs:
       - name: Install apt dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install wkhtmltopdf=0.12.4-1 xvfb=2:1.19.6-1ubuntu4.8
+          sudo apt-get install wkhtmltopdf=0.12.4-1 xvfb
 
       - name: Install pip dependencies
         run: |
