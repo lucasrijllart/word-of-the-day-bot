@@ -1,6 +1,6 @@
-Word of the day bot
+# Word of the day bot
 
-Saw the merriam-webster instagram feed https://www.instagram.com/merriamwebster/ and it
+One day, while browsing Instagram, I saw the merriam-webster instagram account https://www.instagram.com/merriamwebster/ and it
 inspired me to think about the difficulty of implementing something similar in a very
 limited amount of time.
 
@@ -17,7 +17,7 @@ The start was planning the steps that were needed. The quick draft was the follo
 The journey
 
 
-1. Random word def
+## Random word def
 Analysis of api endpoints and how to authenticate
 
 RapidAPI provides an easy way to authenticate with any API from their website. They
@@ -30,7 +30,7 @@ it would try many times to get a definition before giving up. To facilitate debu
 every response from their API is saved to a file with a timestamp so analysing issues is easy.
 
 
-2. Template rendering
+## Template rendering
 
 I wanted to easily represent the data in a beautiful manner which could easily posted to social media.
 My instict told me to use HTML as it's easy to create templates for text structure, and also easy to change the
@@ -47,7 +47,7 @@ Jinja2 for templating, done a quick edit for that
 (quick example of template body)
 
 
-3. Testing, splitting of modules and packaging
+## Testing, splitting of modules and packaging
 
 Tests directory, unit testing the logic mostly. As many of the functions I defined were
 for process flow. Included some functional tests to ensure the connection to the WordsAPI
@@ -64,12 +64,12 @@ Split modules into the following:
 5. instagram: handling Instagram integration for posting images
 
 
-4. Instagram integration
+## Instagram integration
 
-Investigated options, created template, created account, first post, then banned
-https://github.com/ohld/igbot
+Investigated options, created template, created account, first post, then banned https://github.com/ohld/igbot
 
 Very simple code
+``` py
 def post(image_path, caption):
      """Posts an image to instagram."""
      username = getenv("INSTAGRAM_USERNAME")
@@ -79,19 +79,31 @@ def post(image_path, caption):
      bot = Bot()
      bot.login(username=username, password=password)
      bot.upload_photo(image_path, caption=caption)
+```
 
-5. Move to twitter
+## Move to twitter
 Twitter library research, twitter dev account, testing
 
 
-6. Github actions
-Using artifacts to store information for debugging
+## Github actions
+Now I needed a way to automatically create an image and post it to Twitter. [Github actions]() were the obvious choice for this, as they can be run on a schedule.
+Actions also support the creation and storage of [artifacts](), which would normally be a package or binary file to be used after being built. However, these allow
+any files to be stored. I decided to save all the files generated during the process for easy debugging. All files are saved to the `data` folder, it contains:
+1. The WordsAPI response(s) received
+2. The HTML file created
+3. The JPG file generated from the HTML file
+4. The two Twitter responses from uploading the image and creating the post
 
-Then iterative approach at creating workflows:
-a. generate
-b. generate and post
-c. schedule post
-d. post checker
+I found it easiest to create the workflow files by an iterative process, as these can only be tested by running them in Github so it results in many runs. The
+workflow file went through the following iterations:
+1. Build: generic Python workflow build file with latest Ubuntu image, Pip, and then installed requirements.txt
+2. Build, then run a Python entrypoint from the setup.py
+3. Build, generate image using entrypoint
+4. Build, generate image and save as artifact
+5. Build, generate image, post to Twitter, and save artifact
+6. Run action on a schedule
 
+I found that scheduled Actions aren't always on time, so this couldn't be used for Production-level timings, however, for this usage it was appropriate. The timing
+did tend to improve over time.
 
 <a class="twitter-timeline" data-lang="en" data-width="500" data-height="800" data-theme="dark" href="https://twitter.com/WordOfTheDay_B?ref_src=twsrc%5Etfw">Tweets by WordOfTheDay_B</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
