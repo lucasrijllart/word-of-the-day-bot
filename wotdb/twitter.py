@@ -37,7 +37,7 @@ class Twitter():
         response = self.api.request("media/upload", None, {"media": image_data})
 
         if self.data_dir:
-            file_name = f"twitter_response_{timestamp()}"
+            file_name = f"twitter_response_{timestamp()}.json"
             with open(os.path.join(self.data_dir, file_name), "w") as file:
                 file.write(response.text)
             logging.info("TwitterAPI media/upload response file %s saved" % file_name)
@@ -57,7 +57,7 @@ class Twitter():
         response = self.api.request("statuses/update", data)
 
         if self.data_dir:
-            file_name = f"twitter_statuses_update_response_{timestamp()}"
+            file_name = f"twitter_statuses_update_response_{timestamp()}.json"
             with open(os.path.join(self.data_dir, file_name), "w") as file:
                 file.write(response.text)
             logging.info("TwitterAPI statuses/update response file %s saved" % file_name)
