@@ -35,7 +35,7 @@ def _get_random_word(data_dir=None):
     response = requests.get(random_word_endpoint, headers=headers)
 
     if data_dir:
-        file_name = f"wordsapi_response_{timestamp()}.txt"
+        file_name = f"wordsapi_response_{timestamp()}.json"
         with open(os.path.join(data_dir, file_name), "w") as file:
             file.write(response.text)
         logging.info("WordsAPI response file %s saved" % file_name)
