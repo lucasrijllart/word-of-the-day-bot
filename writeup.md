@@ -15,8 +15,7 @@ be useful for this project. Once I found an API that provides random words and t
 definitions I was motivated to start this project.
 
 I started planning the steps that were needed. The quick draft was the following:
-
-1. Retrieve a word and its definitions
+1. Get a random word and its definitions
 2. Generate a pretty image with text
 3. Post it to social media
 
@@ -30,7 +29,7 @@ weeks turned into this Twitter account:
 ## Random words and definitions
 
 The story beings around the https://rapidapi.com website. RapidAPI provides an easy way
-to authenticate with any API from their website. They provide you with a token that is
+to authenticate with many different APIs: they provide you with a token that is
 valid on all the APIs you want to use from their site.
 The requirements for this step were simple, I needed to receive a random word and its
 definitions upon request. The message format did not matter as long as I could easily
@@ -108,7 +107,7 @@ Here is an example of the HTML created for our example word:
 <html>
   <head>
     <title>Word-of-the-day-bot</title>
-    <style>OMITTED</style>
+    <style>omitted for simplicity</style>
   </head>
 
   <body style="background-color: #192734">
@@ -139,7 +138,7 @@ After this process, we successfully turned some text into a beautiful image.
 [wkhtmltopdf]: https://wkhtmltopdf.org/
 
 
-## Testing, architecture, and process flow
+## Testing, project architecture, and process flow
 
 Like with any software project, one of the most important aspects supporting integrity
 and resilience is strong testing. Testing, in this case, means unit tests for code
@@ -204,4 +203,3 @@ workflow file went through the following iterations:
 
 I found that scheduled Actions aren't always on time, so this couldn't be used for Production-level timings, however, for this usage it was appropriate. The timing
 did tend to improve over time.
-
