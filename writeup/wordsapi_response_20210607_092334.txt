@@ -1,0 +1,1 @@
+{"word":"funambulism","results":[{"definition":"walking on a tightrope or slack rope","partOfSpeech":"noun","synonyms":["tightrope walking"],"typeOf":["athletics","sport"],"derivation":["funambulist"]}],"syllables":{"count":4,"list":["fu","nam","bu","lism"]}}
