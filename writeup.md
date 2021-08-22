@@ -149,18 +149,20 @@ checking the logic. As many of the functions I defined were for process flow,
 I included some functional tests to ensure the connection to the WordsAPI was successful
 and that the entrypoints to the program were available too.
 
-For continuous integration (CI) I used a Github Action which ran the tests at every new
-commit pushed (more on Actions below). This ensured that a new piece of functionality wouldn't break existing
+For continuous integration (CI) I wrote a Github action that runs the tests at every new
+commit pushed (more on Actions later). This ensured that a new piece of functionality wouldn't break existing
 functionality by regression testing features.
 
 I split modules into the following:
-1. entry points: run the program with a few different outcomes
+1. entrypoints: run the program with different configurations
 2. main: contains the overall process handling functions to kick off the program
 3. words: handling WordsAPI integration to retrieve a word and definition
 4. render: generating the HTML page from a template and rendering it into an image
 
 
 ## Instagram integration
+
+Now that we have a beautiful image, it needs to be posted to social media.
 
 Originally, I wanted to make this application post to Instagram just like the
 Merriam-Webster account. I did some reading around Instagram bots and APIs, but at the
@@ -201,7 +203,6 @@ This API could be explored to enhance the WOTD bot to post to multiple social me
 
 
 ## Twitter integration
-Twitter library research, twitter dev account, testing
 
 After the disappointing ban on my new Instagram account, I ventured down the Twitter path.
 The Twitter Developer site is simple and efficient, setting up an account was quick, and
@@ -232,6 +233,7 @@ the Twitter integration worked perfectly.
 
 
 ## Scheduled posting
+
 Now that the program could post a new image to Twitter with the click of a button (the enter key, when running the program), 
 I needed a way to automatically run it. [Github actions](https://github.com/features/actions) were the obvious choice for this, as they can be run on a schedule.
 Actions also support the creation and storage of [artifacts](https://docs.github.com/en/actions/guides/storing-workflow-data-as-artifacts), which would normally be a package or binary file to be used after being built. However, these allow
@@ -255,6 +257,7 @@ also did tend to improve over time, the first few runs could be hours late. Afte
 
 
 ## Conclusion
+
 Overall, this project went very smoothly. The number of tools and libraries that are available nowadays have made the development of most things a case of wiring up the right things together. I will try to keep this project working in the future. Some dependencies will need upgrading, and Twitter application credentials will need to be updated. If the program cannot successfully post to Twitter, the Github Action fails and I get alerted via an email.
 
 If you have any questions about the project, please contact me.
