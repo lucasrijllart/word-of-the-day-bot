@@ -137,7 +137,7 @@ After this process, the program successfully turned some text into a simple imag
 [wkhtmltopdf]: https://wkhtmltopdf.org/
 
 
-## Testing, project architecture, and process flow
+## Testing, code architecture, and process flow
 
 Like with any software project, one of the most important aspects supporting integrity
 and resilience is strong testing. Testing, in this case, means unit tests for code
