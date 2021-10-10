@@ -1,6 +1,13 @@
 # Word Of The Day bot
 
 ![Tests](https://github.com/lucasrijllart/word-of-the-day-bot/workflows/Tests/badge.svg?branch=main)
+![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)
+[![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
+[![Vim](https://img.shields.io/badge/--019733?logo=vim)](https://www.vim.org/)
+<!-- Extras
+[![GitHub](https://img.shields.io/badge/--181717?logo=github&logoColor=ffffff)](https://github.com/)
+[![Twitter](https://badgen.net/badge/icon/twitter?icon=twitter&label)](https://twitter.com/WordOfTheDay_B)
+-->
 
 Post daily word definitions on social media.
 
