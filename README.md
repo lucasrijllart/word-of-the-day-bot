@@ -46,7 +46,7 @@ Here is a list of the technologies that were used as part of the project:
 
 Create or workon the virual environment:
 
-`workon word-of-the-day`
+`source bin/activate`
 
 Install dependencies using requirments file:
 
