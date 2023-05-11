@@ -1,0 +1,57 @@
+<html>
+<head>
+<title>Word-of-the-day-bot</title>
+<style>
+    @import "http://fonts.googleapis.com/css2?family=Raleway";
+    @import "http://fonts.googleapis.com/css2?family=Amita";
+
+    html {
+        height: 100%;
+    }
+
+    body {
+        font-family: "Raleway", sans-serif;
+    }
+
+    .date {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 10%;
+        font-family: "Amita", cursive;
+        font-size: 3vw;
+    }
+    
+    .word {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 60%;
+        font-size: 9vw;
+        font-style: italic, bold;
+    }
+    
+    .definition {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 28%;
+        text-align: center;
+        font-size: 3vw;
+    }
+
+</style>
+</head>
+
+<body style="background-color: #f7f7f7">
+    <div class="date"><p style="color: #898f9c">{{ todays_date }}</p></div>
+
+    <div class="word"><p style="color: #4267b2">{{ word }}</p></div>
+
+    <div class="definition"><p style="color: #8b9dc3">{{ definitions }}</p></div>
+
+</body>
+</html>
