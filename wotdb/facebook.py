@@ -35,16 +35,16 @@ class Facebook():
         }
 
         response = requests.get(url, params=params)
-        if self.data_dir:
-            file_name = f"facebook_response_page_token_{timestamp()}.json"
-            with open(os.path.join(self.data_dir, file_name), "w") as file:
-                file.write(response.text)
-            logging.info("GraphAPI page token response file %s saved" % file_name)
 
         response_data = response.json()
         if response.status_code == 200 and "access_token" in response_data:
             logging.info("Page access token retrieved successfully")
         else:
+            if self.data_dir:
+                file_name = f"facebook_response_page_token_{timestamp()}.json"
+                with open(os.path.join(self.data_dir, file_name), "w") as file:
+                    file.write(response.text)
+                logging.info("GraphAPI page token response file %s saved" % file_name)
             raise Exception("Facebook page access token retrieval failed:", response_data)
 
         return response_data.get("access_token")

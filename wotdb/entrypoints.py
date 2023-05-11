@@ -26,4 +26,4 @@ def twitter_post():
 
 
 def facebook_post():
-    main_process_handler("dark_twitter.html", width=1024, height=512, facebook_post=True)
+    main_process_handler("dark_twitter.html", width=1080, height=1080, facebook_post=True)
