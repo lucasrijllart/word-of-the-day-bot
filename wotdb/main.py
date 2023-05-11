@@ -85,5 +85,5 @@ def main_process_handler(
     if twitter_post:
         post_twitter(data_dir, word, image_path)
     if facebook_post:
-        post_facebook(word, image_path)
+        post_facebook(data_dir, word, image_path)
     logging.info("End of run")
