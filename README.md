@@ -52,6 +52,10 @@ Install dependencies using requirments file:
 
 `pip install -r requirements.txt`
 
+Load .env data:
+
+`export $(cat .env | xargs)`
+
 Run unit tests:
 
 `python -m unittest discover tests/unit/`

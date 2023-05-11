@@ -11,6 +11,7 @@ setup(
             "generate_image=wotdb.entrypoints:generate_image",
             "generate_and_open=wotdb.entrypoints:generate_and_open",
             "twitter_post=wotdb.entrypoints:twitter_post",
+            "facebook_post=wotdb.entrypoints:facebook_post",
         ]
     },
 )

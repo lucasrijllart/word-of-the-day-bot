@@ -6,6 +6,7 @@ wotdb/data/*/
 config/
 bin/
 pyvenv.cfg
+keys.txt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
