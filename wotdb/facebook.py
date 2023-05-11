@@ -8,12 +8,15 @@ import os
 
 import requests
 
+from .utils import timestamp
+
 
 class Facebook():
     """Class holding Facebook integration functionality."""
 
-    def __init__(self):
+    def __init__(self, data_dir=None):
         """Retrieve secrets from env and retrieve access token from API."""
+        self.data_dir = data_dir  # writes API responses to files if provided
         self.api_version = os.environ.get("FACEBOOK_API_VERSION", "v16.0")
         self.user_access_token = os.environ["FACEBOOK_LONG_LIVED_USER_ACCESS_TOKEN"]
         self.page_id = os.environ["FACEBOOK_WOTDB_PAGE_ID"]
@@ -32,6 +35,12 @@ class Facebook():
         }
 
         response = requests.get(url, params=params)
+        if self.data_dir:
+            file_name = f"facebook_response_page_token_{timestamp()}.json"
+            with open(os.path.join(self.data_dir, file_name), "w") as file:
+                file.write(response.text)
+            logging.info("GraphAPI page token response file %s saved" % file_name)
+
         response_data = response.json()
         if response.status_code == 200 and "access_token" in response_data:
             logging.info("Page access token retrieved successfully")
@@ -40,25 +49,32 @@ class Facebook():
 
         return response_data.get("access_token")
 
-    def publish_post(self, caption, file_path):
+    def publish_post(self, caption, image_path):
         """ Publish post to page that includes a photo and caption.
         https://developers.facebook.com/docs/pages/publishing#publish-a-photo
         """
         logging.info("Publishing photo to Facebook page")
         url = f"https://graph.facebook.com/{self.page_id}/photos"
-        file = {"file": open(file_path, "rb")}
+        file = {"file": open(image_path, "rb")}
         params = {
             "caption": caption,
             "access_token": self.page_access_token,
         }
 
         response = requests.post(url, params=params, files=file)
+        if self.data_dir:
+            file_name = f"facebook_response_publish_{timestamp()}.json"
+            with open(os.path.join(self.data_dir, file_name), "w") as file:
+                file.write(response.text)
+            logging.info("GraphAPI publish response file %s saved" % file_name)
+
         photo_id = response.json().get("id")
         post_id = response.json().get("post_id")
         if response.status_code == 200:
-            logging.info("Post successful! Photo ID: %s, post ID: %s" % photo_id, post_id)
+            logging.info("Post successful! Photo ID: %s, post ID: %s" % (photo_id, post_id))
         else:
             raise Exception("Facebook post unsuccessful! Error: %s" % response.text)
+        return post_id
 
 def get_long_lived_user_access_token(short_lived_token):
     """Used to get a 90-day long user access token. Should be saved in the secret
@@ -98,11 +114,3 @@ def get_long_lived_user_access_token(short_lived_token):
         print(response.text)
         raise Exception("Unsuccessfully retrieved long-lived token!")
     print(response.json())
-
-# user_access_token = get_user_access_token()
-# get_page_id(LONG_LIVED_TOKEN)
-facebook = Facebook()
-facebook.authenticate()
-caption = "Test"
-file_path = "/Users/lucasrijllart/workspace/word-of-the-day-bot/wotdb/data/test_image.jpg"
-facebook.publish_post(caption, file_path)

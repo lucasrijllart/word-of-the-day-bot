@@ -7,6 +7,7 @@ import time
 from dotenv import load_dotenv
 
 from . import data
+from .facebook import Facebook
 from .render import render_template, create_image
 from .twitter import Twitter
 from .utils import timestamp
@@ -27,18 +28,37 @@ def _make_directory(path):
     return directory
 
 
-def _main_process_flow(template, width, height, open_file, twitter_post):
+def twitter_post(data_dir, word, image_path):
+    twitter_bot = Twitter(data_dir)
+    twitter_bot.tweet_image(f"{word} #WordOfTheDay", image_path)
+
+
+def facebook_post(data_dir, word, image_path):
+    max_attempts = 10
+    attempt = 1
+    post_id = None
+    while not post_id and attempt <= max_attempts:
+        logging.info("Attempting Facebook post, attempt %s" % attempt)
+        try:
+            facebook_bot = Facebook(data_dir)
+            facebook_bot.authenticate()
+            post_id = facebook_bot.publish_post(word, image_path)
+        except Exception as e:
+            logging.exception(e)
+            logging.info("Waiting %ss" % (2 ** attempt))
+            time.sleep(2 ** attempt)  # exponential backoff
+            continue
+        finally:
+            attempt += 1
+    return post_id
+
+
+def _retrieve_word_and_definition(data_dir, template, width, height):
     """Generate image based on random word and definition."""
-    data_dir = _make_directory(data.__path__[0])
     word, definitions = get_word_and_data(data_dir)
     render_path = render_template(word, definitions, data_dir, template)
     image_path = create_image(render_path, data_dir, width, height)
-    if open_file:
-        subprocess.run(["xdg-open", image_path])
-    if twitter_post:
-        twitter_bot = Twitter(data_dir)
-        twitter_bot.tweet_image(f"{word} #WordOfTheDay", image_path)
-    return image_path
+    return word, image_path
 
 
 def main_process_handler(
@@ -46,7 +66,8 @@ def main_process_handler(
         height=1000,
         width=1000,
         open_file=False,
-        twitter_post=False
+        twitter_post=False,
+        facebook_post=False,
 ):
     """Handle any exceptions from main process and just retry."""
     logging.basicConfig(
@@ -56,19 +77,13 @@ def main_process_handler(
     logging.info("Started run")
     load_dotenv(verbose=True)
 
-    result = None
-    tries = 1
-    while not result and tries <= MAX_OVERALL_TRIES:
-        logging.info("Running main process, try %s" % tries)
-        try:
-            result = _main_process_flow(template, width, height, open_file, twitter_post)
-        except Exception as e:
-            logging.exception(e)
-            time.sleep(1)  # wait after getting exception
-            continue
-        finally:
-            tries += 1
-
-    if not result:
-        raise Exception("Process did not produce a result successfully.")
+    data_dir = _make_directory(data.__path__[0])
+    word, image_path = _retrieve_word_and_definition(data_dir, template, width, height)
+    
+    if open_file:
+        subprocess.run(["xdg-open", image_path])
+    if twitter_post:
+        twitter_post(data_dir, word, image_path)
+    if facebook_post:
+        facebook_post(word, image_path)
     logging.info("End of run")
