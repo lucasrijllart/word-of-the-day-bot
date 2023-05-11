@@ -60,23 +60,13 @@ class Facebook():
         else:
             raise Exception("Facebook post unsuccessful! Error: %s" % response.text)
 
-def get_page_id(user_access_token):
-    """Only used once to get page id linked to my user id"""
-    user_id = "lucas.rijllart"
-    url = f"https://graph.facebook.com/{user_id}/accounts"
-    params = {
-       "access_token": user_access_token
-    }
-
-    response = requests.get(url, params=params)
-    print(response)
-    print(response.json())
-
-def get_user_access_token():
-    """Not used. Gets a short-term user access token."""
-    print("Getting user access token...")
+def get_long_lived_user_access_token(short_lived_token):
+    """Used to get a 90-day long user access token. Should be saved in the secret
+    FACEBOOK_LONG_LIVED_USER_ACCESS_TOKEN.
+    """
+    logging.info("Getting short-lived user access token")
     url = "https://graph.facebook.com/oauth/access_token"
-    app_id = os.environ["APP_ID"]
+    app_id = os.environ["FACEBOOK_DEV_APP_ID"]
     client_secret = os.environ["FACEBOOK_CLIENT_SECRET"]
     params = {
         "client_id": app_id,
@@ -85,17 +75,15 @@ def get_user_access_token():
     }
 
     response = requests.get(url, params=params)
-    print(response)
-    print(response.text)
-    access_token = response.json().get("access_token")
+    if response.status_code == 200 and "access_token" in response.json():
+        logging.info("Successfully retrieved short-lived token")
+    else:
+        raise Exception("Error while retrieving short-lived token")
 
-    return access_token
+    short_lived_token = response.json().get("access_token")
 
-def get_long_lived_user_access_token(short_lived_token):
-    """Used to get a 90-day long user access token. Should be saved in a secret."""
+    logging.info("Getting long-lived user access token")
     url = "https://graph.facebook.com/v16.0/oauth/access_token"
-    app_id = os.environ["FACEBOOK_DEV_APP_ID"]
-    client_secret = os.environ["FACEBOOK_CLIENT_SECRET"]
     params = {
         "grant_type": "fb_exchange_token",
         "client_id": app_id,
@@ -104,10 +92,12 @@ def get_long_lived_user_access_token(short_lived_token):
     }
 
     response = requests.get(url, params=params)
-    print(response)
+    if response.status_code == 200:
+        logging.info("Successfully retrieved long-lived token")
+    else:
+        print(response.text)
+        raise Exception("Unsuccessfully retrieved long-lived token!")
     print(response.json())
-
-# get_long_lived_user_access_token(ACCESS)
 
 # user_access_token = get_user_access_token()
 # get_page_id(LONG_LIVED_TOKEN)
