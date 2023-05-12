@@ -28,12 +28,12 @@ def _make_directory(path):
     return directory
 
 
-def twitter_post(data_dir, word, image_path):
+def post_twitter(data_dir, word, image_path):
     twitter_bot = Twitter(data_dir)
     twitter_bot.tweet_image(f"{word} #WordOfTheDay", image_path)
 
 
-def facebook_post(data_dir, word, image_path):
+def post_facebook(data_dir, word, image_path):
     max_attempts = 10
     attempt = 1
     post_id = None
@@ -83,7 +83,7 @@ def main_process_handler(
     if open_file:
         subprocess.run(["xdg-open", image_path])
     if twitter_post:
-        twitter_post(data_dir, word, image_path)
+        post_twitter(data_dir, word, image_path)
     if facebook_post:
-        facebook_post(word, image_path)
+        post_facebook(data_dir, word, image_path)
     logging.info("End of run")
