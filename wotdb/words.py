@@ -68,6 +68,7 @@ def _parse_random_word_response(response):
 
 def get_word_and_data(data_dir=None):
     """Return the random word and its definitions."""
+    # definitions must be less than ~280 chars
     definitions = None
     attempt = 1
     while not definitions and attempt <= MAX_DEFINITION_ATTEMPTS:
