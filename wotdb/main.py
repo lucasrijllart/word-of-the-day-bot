@@ -79,7 +79,7 @@ def main_process_handler(
 
     data_dir = _make_directory(data.__path__[0])
     word, image_path = _retrieve_word_and_definition(data_dir, template, width, height)
-    
+
     if open_file:
         subprocess.run(["xdg-open", image_path])
     if twitter_post:

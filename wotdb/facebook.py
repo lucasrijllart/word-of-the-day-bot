@@ -20,7 +20,7 @@ class Facebook():
         self.api_version = os.environ.get("FACEBOOK_API_VERSION", "v16.0")
         self.user_access_token = os.environ["FACEBOOK_LONG_LIVED_USER_ACCESS_TOKEN"]
         self.page_id = os.environ["FACEBOOK_WOTDB_PAGE_ID"]
-    
+
     def authenticate(self):
         """Perform necessary authentication with Facebook API."""
         self.page_access_token = self._get_page_acccess_token()
@@ -75,6 +75,7 @@ class Facebook():
         else:
             raise Exception("Facebook post unsuccessful! Error: %s" % response.text)
         return post_id
+
 
 def get_long_lived_user_access_token(short_lived_token):
     """Used to get a 90-day long user access token. Should be saved in the secret
