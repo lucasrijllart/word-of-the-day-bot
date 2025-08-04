@@ -17,7 +17,7 @@ class Facebook():
     def __init__(self, data_dir=None):
         """Retrieve secrets from env and retrieve access token from API."""
         self.data_dir = data_dir  # writes API responses to files if provided
-        self.api_version = os.environ.get("FACEBOOK_API_VERSION", "v16.0")
+        self.api_version = os.environ.get("FACEBOOK_API_VERSION", "v23.0")
         self.user_access_token = os.environ["FACEBOOK_LONG_LIVED_USER_ACCESS_TOKEN"]
         self.page_id = os.environ["FACEBOOK_WOTDB_PAGE_ID"]
 
