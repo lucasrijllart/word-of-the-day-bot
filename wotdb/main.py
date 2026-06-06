@@ -50,6 +50,8 @@ def post_facebook(data_dir, word, image_path):
             continue
         finally:
             attempt += 1
+    if post_id is None:
+        raise Exception("Facebook post failed after %s attempts." % max_attempts)
     return post_id
 
 
