@@ -1,4 +1,5 @@
 """Package initialisation. Holds main function."""
+
 import logging
 import os
 import subprocess
@@ -8,7 +9,7 @@ from dotenv import load_dotenv
 
 from . import data
 from .facebook import Facebook
-from .render import render_template, create_image
+from .render import create_image, render_template
 from .twitter import Twitter
 from .utils import timestamp
 from .words import get_word_and_data
@@ -45,8 +46,8 @@ def post_facebook(data_dir, word, image_path):
             post_id = facebook_bot.publish_post(word, image_path)
         except Exception as e:
             logging.exception(e)
-            logging.info("Waiting %ss" % (2 ** attempt))
-            time.sleep(2 ** attempt)  # exponential backoff
+            logging.info("Waiting %ss" % (2**attempt))
+            time.sleep(2**attempt)  # exponential backoff
             continue
         finally:
             attempt += 1
@@ -64,17 +65,16 @@ def _retrieve_word_and_definition(data_dir, template, width, height):
 
 
 def main_process_handler(
-        template="template_1.html",
-        height=1000,
-        width=1000,
-        open_file=False,
-        twitter_post=False,
-        facebook_post=False,
+    template="template_1.html",
+    height=1000,
+    width=1000,
+    open_file=False,
+    twitter_post=False,
+    facebook_post=False,
 ):
     """Handle any exceptions from main process and just retry."""
     logging.basicConfig(
-        format="%(asctime)s|%(levelname)s %(module)s: %(message)s",
-        level=logging.INFO
+        format="%(asctime)s|%(levelname)s %(module)s: %(message)s", level=logging.INFO
     )
     logging.info("Started run")
     load_dotenv(verbose=True)
