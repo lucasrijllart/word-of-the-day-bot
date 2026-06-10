@@ -25,7 +25,7 @@ class Render(unittest.TestCase):
                 "1": {"definition": "definition 1", "part": "part 1"},
                 "2": {"definition": "definition 2", "part": "part 2"},
             },
-            "<sup>1</sup> part 1: definition 1</br><sup>2</sup> part 2: definition 2",
+            "<sup>1</sup> part 1: definition 1<br><sup>2</sup> part 2: definition 2",
         ),
         (
             {
@@ -34,7 +34,7 @@ class Render(unittest.TestCase):
                 "3": {"definition": "d3", "part": "p3"},
                 "4": {"definition": "d4", "part": "p4"},
             },
-            "<sup>1</sup> p1: d1</br><sup>2</sup> p2: d2</br><sup>3</sup> p3: d3",
+            "<sup>1</sup> p1: d1<br><sup>2</sup> p2: d2<br><sup>3</sup> p3: d3",
         ),
     ])
     def test_format_definitions(self, data, expected):
