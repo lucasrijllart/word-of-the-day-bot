@@ -20,7 +20,7 @@ def _headers():
     """Constuct headers for WordsAPI request."""
     key = os.environ.get(RAPIDAPI_KEY_VAR)
     if not key:
-        raise Exception(f"Env var '{RAPIDAPI_KEY_VAR}' has value {key}. Use with -e.")
+        raise Exception(f"Env var '{RAPIDAPI_KEY_VAR}' is not set. Export it before running.")
     return {
         "x-rapidapi-key": key,
         "x-rapidapi-host": "wordsapiv1.p.rapidapi.com",

@@ -29,7 +29,7 @@ def _format_definitions(data):
         else:
             result += f"<sup>{index}</sup> {values['part']}: {values['definition']}"
         if int(index) != len(reduced_data):
-            result += "</br>"
+            result += "<br>"
     return result
 
 
@@ -65,15 +65,10 @@ def create_image(render_path, data_dir, width, height):
         "xvfb-run", "wkhtmltoimage", "--width", str(width), "--height", str(height),
         render_path, image_path
     ]
-    subprocess.run(args)
+    subprocess.run(args, check=True)
 
-    try:
-        f = open(image_path)
-    except FileNotFoundError:
+    if not path.exists(image_path):
         raise Exception("Image was not created!")
-    else:
-        logging.info("Created image %s" % image_name)
-    finally:
-        f.close()
+    logging.info("Created image %s" % image_name)
 
     return image_path

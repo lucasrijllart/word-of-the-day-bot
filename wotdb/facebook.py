@@ -23,9 +23,9 @@ class Facebook():
 
     def authenticate(self):
         """Perform necessary authentication with Facebook API."""
-        self.page_access_token = self._get_page_acccess_token()
+        self.page_access_token = self._get_page_access_token()
 
-    def _get_page_acccess_token(self):
+    def _get_page_access_token(self):
         """Used to get a page access token to perform page actions."""
         logging.info("Getting page access token")
         url = f"https://graph.facebook.com/{self.page_id}"
