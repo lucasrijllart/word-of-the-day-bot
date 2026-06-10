@@ -5,6 +5,7 @@ https://developers.facebook.com/docs/graph-api
 """
 import logging
 import os
+import time
 
 import requests
 
@@ -18,12 +19,40 @@ class Facebook():
         """Retrieve secrets from env and retrieve access token from API."""
         self.data_dir = data_dir  # writes API responses to files if provided
         self.api_version = os.environ.get("FACEBOOK_API_VERSION", "v23.0")
-        self.user_access_token = os.environ["FACEBOOK_LONG_LIVED_USER_ACCESS_TOKEN"]
+        self.app_id = os.environ["FACEBOOK_APP_ID"]
+        self.app_secret = os.environ["FACEBOOK_APP_SECRET"]
+        self.user_access_token = os.environ.get(
+            "FACEBOOK_USER_ACCESS_TOKEN",
+            os.environ.get("FACEBOOK_LONG_LIVED_USER_ACCESS_TOKEN")
+        )
         self.page_id = os.environ["FACEBOOK_WOTDB_PAGE_ID"]
 
     def authenticate(self):
         """Perform necessary authentication with Facebook API."""
+        self._extend_user_token()
         self.page_access_token = self._get_page_access_token()
+
+    def _extend_user_token(self):
+        """Extend or refresh the user access token to ensure it doesn't expire."""
+        logging.info("Checking and extending user access token")
+        url = f"https://graph.facebook.com/v23.0/oauth/access_token"
+        params = {
+            "grant_type": "fb_exchange_token",
+            "client_id": self.app_id,
+            "client_secret": self.app_secret,
+            "fb_exchange_token": self.user_access_token,
+        }
+
+        response = requests.get(url, params=params)
+        if response.status_code == 200:
+            new_token = response.json().get("access_token")
+            if new_token:
+                self.user_access_token = new_token
+                logging.info("User access token extended successfully")
+            else:
+                logging.warning("Token extend returned no access_token, continuing with existing token")
+        else:
+            logging.warning("Token extend failed (status %s): %s", response.status_code, response.text[:200])
 
     def _get_page_access_token(self):
         """Used to get a page access token to perform page actions."""
@@ -55,13 +84,14 @@ class Facebook():
         """
         logging.info("Publishing photo to Facebook page")
         url = f"https://graph.facebook.com/{self.page_id}/photos"
-        file = {"file": open(image_path, "rb")}
-        params = {
-            "caption": caption,
-            "access_token": self.page_access_token,
-        }
+        with open(image_path, "rb") as f:
+            file = {"file": f}
+            params = {
+                "caption": caption,
+                "access_token": self.page_access_token,
+            }
 
-        response = requests.post(url, params=params, files=file)
+            response = requests.post(url, params=params, files=file)
         if self.data_dir:
             file_name = f"facebook_response_publish_{timestamp()}.json"
             with open(os.path.join(self.data_dir, file_name), "w") as file:
@@ -75,43 +105,3 @@ class Facebook():
         else:
             raise Exception("Facebook post unsuccessful! Error: %s" % response.text)
         return post_id
-
-
-def get_long_lived_user_access_token(short_lived_token):
-    """Used to get a 90-day long user access token. Should be saved in the secret
-    FACEBOOK_LONG_LIVED_USER_ACCESS_TOKEN.
-    """
-    logging.info("Getting short-lived user access token")
-    url = "https://graph.facebook.com/oauth/access_token"
-    app_id = os.environ["FACEBOOK_DEV_APP_ID"]
-    client_secret = os.environ["FACEBOOK_CLIENT_SECRET"]
-    params = {
-        "client_id": app_id,
-        "client_secret": client_secret,
-        "grant_type": "client_credentials",
-    }
-
-    response = requests.get(url, params=params)
-    if response.status_code == 200 and "access_token" in response.json():
-        logging.info("Successfully retrieved short-lived token")
-    else:
-        raise Exception("Error while retrieving short-lived token")
-
-    short_lived_token = response.json().get("access_token")
-
-    logging.info("Getting long-lived user access token")
-    url = "https://graph.facebook.com/v16.0/oauth/access_token"
-    params = {
-        "grant_type": "fb_exchange_token",
-        "client_id": app_id,
-        "client_secret": client_secret,
-        "fb_exchange_token": short_lived_token,
-    }
-
-    response = requests.get(url, params=params)
-    if response.status_code == 200:
-        logging.info("Successfully retrieved long-lived token")
-    else:
-        print(response.text)
-        raise Exception("Unsuccessfully retrieved long-lived token!")
-    print(response.json())
